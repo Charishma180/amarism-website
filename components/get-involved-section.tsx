@@ -9,7 +9,7 @@ const paths = [
     description: "Work on the ground and serve rural communities directly.",
     iconColor: "text-yellow-500",
     iconBg: "bg-yellow-50",
-    link: "/missions/mission-manisha#volunteer-enrollment",
+    link: "/volunteer",
   },
   {
     icon: GraduationCap,
@@ -17,7 +17,7 @@ const paths = [
     description: "Gain field experience and academic research opportunities.",
     iconColor: "text-yellow-600",
     iconBg: "bg-yellow-50",
-    link: "/missions/mission-manisha#internship-enrollment",
+    link: "/internship",
   },
   {
     icon: Building2,

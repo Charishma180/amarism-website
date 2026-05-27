@@ -26,7 +26,7 @@ const navItems = [
       { name: "Mission Manoswasthya", href: "#mission-manoswasthya" },
       { name: "Mission Jeeva Dhara",href: "#mission-jeevadhara",
 },
-     
+    
     ],
   },
   {
@@ -34,8 +34,8 @@ const navItems = [
     href: "#get-involved",
     subItems: [
       { name: "Be a Patron", href: "/patron", highlight:true  },
-      { name: "Volunteer Enrollment", href: "/missions/mission-manisha#volunteer-enrollment" },
-      { name: "Internship Enrollment", href: "/missions/mission-manisha#internship-enrollment" },
+      { name: "Volunteer Enrollment", href: "/volunteer" },
+{ name: "Internship Enrollment", href: "/internship" },
      
     ],
   },
