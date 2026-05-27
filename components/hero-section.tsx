@@ -27,7 +27,7 @@ export function HeroSection() {
       </div>
 
       {/* Hero Content */}
-      <div className="relative z-10 flex flex-col items-center justify-center h-screen px-6 text-center">
+      <div className="relative z-10 flex flex-col items-center justify-center min-h-[100svh] px-6 text-center">
         <h1 className="text-5xl md:text-8xl lg:text-9xl font-bold text-white tracking-tight mb-4">
           AMARISM
         </h1>
