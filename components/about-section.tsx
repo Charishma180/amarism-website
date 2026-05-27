@@ -327,7 +327,7 @@ export function AboutSection() {
 )}
             {/* GOVERNING BODY */}
       {activeTab === "governing-body" && (
-        <section className="bg-[#f8fafc] py-24 px-6">
+        <section className="bg-[#f8fafc] py-12 md:py-24 px-6">
           <div className="max-w-7xl mx-auto">
 
             {/* Heading */}
@@ -509,7 +509,7 @@ export function AboutSection() {
       )}
            {/* IMPACT ROADMAP */}
 {activeTab === "impact-roadmap" && (
-  <section className="min-h-screen bg-white px-4 pt-28 pb-24">
+  <section className="min-h-screen bg-white px-4 py-12 md:py-24 pb-24">
     <div className="max-w-5xl mx-auto">
 
       <div className="mb-16">
