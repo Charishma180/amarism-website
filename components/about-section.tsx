@@ -215,81 +215,66 @@ export function AboutSection() {
       )}
       {/* CORE VALUES */}
 {activeTab === "core-values" && (
-  <section className="bg-[#f8fbfb] py-24 px-6">
+  <section className="bg-[#f8fbfb] py-16 md:py-24 px-5 md:px-6">
     <div className="max-w-7xl mx-auto">
-      <div className="mb-20">
-        <div className="w-16 h-2 bg-[#14b89a] rounded-full mb-8"></div>
+      <div className="mb-14 md:mb-20">
+        <div className="w-16 h-2 bg-[#14b89a] rounded-full mb-6 md:mb-8"></div>
 
-        <h1 className="text-5xl md:text-7xl font-bold text-[#020b1f] mb-8">
+        <h1 className="text-4xl md:text-7xl font-bold text-[#020b1f] mb-6 md:mb-8">
           Our Core Values
         </h1>
 
-        <p className="text-gray-500 text-lg md:text-2xl leading-relaxed max-w-5xl">
+        <p className="text-gray-500 text-base md:text-2xl leading-8 md:leading-relaxed max-w-5xl">
           Our actions are guided by 'Manava Garima' (Human Dignity) and the
           Preamble of our Constitution. We believe that when human dignity is
           protected, national greatness becomes a natural outcome.
         </p>
       </div>
 
-      <div className="grid md:grid-cols-2 gap-8">
+      <div className="grid md:grid-cols-2 gap-6 md:gap-8">
         {[
           {
             title: "Human Dignity (Manava Garima)",
             text: "We believe that every human being carries inherent dignity. No occupation, economic status, caste, gender, or background can diminish it. Whether a manual worker or a corporate professional — every individual deserves equal respect.",
-            
-            quote:
-              "Humanity is one family (Vasudhaiva Kutumbakam).",
+            badge: "मानव गरिमा",
+            quote: "Humanity is one family (Vasudhaiva Kutumbakam).",
           },
-
           {
             title: "Constitutional Justice & Equality",
             text: "Guided by the Preamble of the Constitution of India, we strive for Social, Economic, and Political Justice. We work to make Liberty, Equality, and Fraternity a lived reality at the grassroots level.",
-            tags: [
-              "JUSTICE",
-              "LIBERTY",
-              "EQUALITY",
-              "FRATERNITY",
-            ],
+            tags: ["JUSTICE", "LIBERTY", "EQUALITY", "FRATERNITY"],
           },
-
           {
             title: "Democratic Participation",
             text: "AMARISM is a democratic organization where every member has a voice. Leadership is earned through service, accountability, and consensus. Internal democracy strengthens external democracy.",
             tags: ["UNITY WITHOUT UNIFORMITY"],
           },
-
           {
             title: "Education as Liberation",
             text: "Education is the most powerful instrument for social transformation. It must build character, competence, and civic responsibility. Quality education is a right, not a privilege.",
             tags: ["EDUCATE TO EMPOWER"],
           },
-
           {
             title: "Compassion Rooted in Dharma",
             text: "Service to humanity is the highest duty (Seva Parmo Dharma). Our compassion is structured, sustainable, and accountable — translating empathy into organized action.",
             badge: "सेवा परमो धर्मः",
           },
-
           {
             title: "Equality Beyond Barriers",
             text: "We stand against discrimination in all forms. Poverty must never suppress talent, and socio-economic status must never determine respect. We strive for a merit-driven, inclusive society.",
           },
-
           {
             title: "Accountability & Ethics",
             text: "As a non-profit institution, we commit to transparency, integrity, and responsible use of resources. Accountability is the backbone of public trust.",
           },
-
           {
             title: "Unity for Nation-Building",
             text: "National progress is a shared responsibility of citizens. Like-minded individuals united by purpose can transform society. When dignity is protected, India naturally rises.",
           },
-
           {
             title: "Holistic Well-Being",
             text: "Development includes physical health, mental strength, and social harmony. We promote resilience and nourishment to build a balanced, strong nation.",
           },
-
           {
             title: "Innovation with Inclusivity",
             text: "Progress must reach the last person in the last village. Technology and innovation must serve rural and tribal communities, ensuring development is sustainable and practical.",
@@ -298,36 +283,36 @@ export function AboutSection() {
         ].map((item, index) => (
           <div
             key={index}
-            className="bg-white rounded-[32px] shadow-lg p-10 border border-gray-100"
+            className="bg-white rounded-[24px] md:rounded-[32px] shadow-lg p-6 md:p-10 border border-gray-100"
           >
-            <div className="w-14 h-2 bg-[#21b894] rounded-full mb-4"></div>
+            <div className="w-12 md:w-14 h-2 bg-[#21b894] rounded-full mb-4"></div>
 
             {item.badge && (
-              <p className="text-[#14b89a] text-sm font-bold mb-5">
+              <p className="text-[#14b89a] text-xs md:text-sm font-bold mb-4 md:mb-5">
                 {item.badge}
               </p>
             )}
 
-            <h2 className="text-4xl font-bold text-[#081229] leading-tight mb-6">
+            <h2 className="text-2xl md:text-4xl font-bold text-[#081229] leading-tight mb-4 md:mb-6">
               {item.title}
             </h2>
 
-            <p className="text-gray-600 text-lg leading-9 mb-8">
+            <p className="text-gray-600 text-base md:text-lg leading-7 md:leading-9 mb-6 md:mb-8">
               {item.text}
             </p>
 
             {item.quote && (
-              <p className="italic text-gray-400 text-xl mb-8">
+              <p className="italic text-gray-400 text-base md:text-xl mb-6 md:mb-8">
                 “{item.quote}”
               </p>
             )}
 
             {item.tags && (
-              <div className="flex flex-wrap gap-3">
+              <div className="flex flex-wrap gap-2 md:gap-3">
                 {item.tags.map((tag) => (
                   <div
                     key={tag}
-                    className="inline-block bg-[#edfdf7] text-[#0f9f78] px-5 py-2 rounded-full text-xs font-bold tracking-[0.15em]"
+                    className="inline-block bg-[#edfdf7] text-[#0f9f78] px-4 md:px-5 py-2 rounded-full text-[10px] md:text-xs font-bold tracking-[0.12em] md:tracking-[0.15em]"
                   >
                     {tag}
                   </div>
