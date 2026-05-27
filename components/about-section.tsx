@@ -57,10 +57,10 @@ export function AboutSection() {
                   "Build on Human Dignity,Equality and Costitutional Justice."}
 
                 {activeTab === "governing-body" &&
-                  "Visionary Leadership Driving Grassroots changeS."}
+                  "Visionary Leadership Driving Grassroots changes."}
 
                 {activeTab === "impact-roadmap" &&
-                  "Jourey of hange Across the Grassroots."}
+                  "Jourey of change Across the Grassroots."}
               </p>
             </div>
           </div>

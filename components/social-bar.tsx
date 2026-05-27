@@ -16,7 +16,7 @@ export function SocialBar() {
 
           {/* LinkedIn */}
           <a
-            href="Check out Amarism AP’s profile on LinkedIn https://in.linkedin.com/in/amarism-ap-215964411"
+            href="https://in.linkedin.com/in/amarism-ap-215964411"
             target="_blank"
             rel="noopener noreferrer"
             className="group w-12 h-12 rounded-2xl bg-[#0077b5]/15 hover:bg-[#0077b5] transition-all duration-300 flex items-center justify-center"

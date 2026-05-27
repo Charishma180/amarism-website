@@ -102,11 +102,12 @@ export default function SignupPage() {
               </label>
 
               <input
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="w-full rounded-xl border border-gray-200 px-5 py-4 outline-none"
-                placeholder="Enter your email address"
-              />
+  type="email"
+  value={email}
+  onChange={(e) => setEmail(e.target.value)}
+  className="w-full rounded-xl border border-gray-200 px-5 py-4 outline-none"
+  placeholder="Enter your email address"
+/>
             </div>
 
             <div>
