@@ -134,7 +134,7 @@ ${message}`;
         </div>
 
         <footer className="border-t bg-[#f7fbf8] py-8">
-          <div className="max-w-7xl mx-auto px-10 flex items-center justify-between">
+          <div className="max-w-7xl mx-auto px-10 flex flex-col md:flex-row items-center gap-6">
             <div className="flex items-center gap-4">
               <img
                 src="/amarism-logo.jpeg"
