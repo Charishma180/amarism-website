@@ -49,7 +49,7 @@ export default function MissionManishaPage() {
   <img
     src="/missions-banner.jpeg"
     alt="Our Missions"
-    className="w-full h-[260px] md:h-auto object-cover object-top"
+    className="w-full h-[290px] md:h-auto object-cover object-top"
   />
 </section>
       {/* PAGE 1 - INTRO */}
