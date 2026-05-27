@@ -140,9 +140,7 @@ ${message}`;
                 src="/amarism-logo.jpeg"
                 className="w-14 h-14 rounded-full"
               />
-              <p className="text-lg text-gray-700">
-                © 2024 AMARISM. All rights reserved.
-              </p>
+              
             </div>
 
             <div className="flex gap-6">
