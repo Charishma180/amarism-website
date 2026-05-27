@@ -44,13 +44,21 @@ export default function MissionManishaPage() {
   return (
     <main className="min-h-screen bg-white overflow-x-hidden">
       <Navbar />
+      {/* Missions Banner */}
+<section className="w-full">
+  <img
+    src="/missions-banner.jpeg"
+    alt="Our Missions"
+    className="w-full h-auto object-cover"
+  />
+</section>
 
       {/* PAGE 1 - INTRO */}
       <section
        id="internship-enrollment">
         <div className="grid lg:grid-cols-[38%_62%] min-h-[720px]">
           <div className="bg-gradient-to-b from-[#5c46ff] to-[#4338ca] text-white px-8 md:px-14 py-14 flex flex-col justify-center">
-            <span className="bg-white/15 px-5 py-3 rounded-xl text-xs font-bold w-fit mb-8">
+            <span className="bg-white/15 px-5 py-3 rounded-xl text-xs font-bold w-fit mt-14">
               FUTURE LEADERS
             </span>
 
