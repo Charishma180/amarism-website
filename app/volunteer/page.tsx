@@ -9,7 +9,7 @@ export default function VolunteerPage() {
     <main className="min-h-screen bg-white overflow-x-hidden">
       <Navbar />
 
-      <section className="bg-white min-h-screen md:grid md:grid-cols-[40%_60%] overflow-hidden">
+      <section className="pt-28 bg-white min-h-screen md:grid md:grid-cols-[40%_60%] overflow-hidden">
         <div className="bg-[#082f73] text-white px-6 py-12 md:px-16 md:py-16 flex flex-col justify-center">
           <span className="bg-white/15 px-5 py-3 rounded-xl text-sm font-bold w-fit mb-8">
             DRIVING IMPACT

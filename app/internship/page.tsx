@@ -9,7 +9,7 @@ export default function InternshipPage() {
     <main className="min-h-screen bg-white overflow-x-hidden">
       <Navbar />
 
-      <section className="min-h-screen">
+      <section className="pt-28 min-h-screen">
         <div className="grid lg:grid-cols-[38%_62%] min-h-screen">
           <div className="bg-gradient-to-b from-[#5c46ff] to-[#4338ca] text-white px-8 md:px-14 py-14 flex flex-col justify-center">
             <span className="bg-white/15 px-5 py-3 rounded-xl text-xs font-bold w-fit mb-8">
