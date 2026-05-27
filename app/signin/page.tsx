@@ -24,8 +24,6 @@ export default function SignInPage() {
         await signInWithEmailAndPassword(auth, email, password);
         alert("Login successful!");
       }
-    } catch (error: any) {
-      alert(error.message);
     }
   };
 
