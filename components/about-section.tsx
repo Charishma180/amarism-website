@@ -49,7 +49,7 @@ export function AboutSection() {
             <div className="flex items-start gap-4 max-w-3xl">
               <div className="w-1 h-16 bg-[#14b89a] rounded-full mt-1"></div>
 
-              <p className="text-white text-xl md:text-3xl leading-relaxed">
+              <p className="text-white text-xl md:text-2xl md:text-3xl leading-relaxed">
                 {activeTab === "who-we-are" &&
                   "A youth-driven movement for dignity and justice."}
 
@@ -90,7 +90,7 @@ export function AboutSection() {
       {activeTab === "who-we-are" && (
         <section className="min-h-screen bg-white px-4 pt-14 pb-10 md:px-8">
           <div className="max-w-4xl mx-auto">
-            <h2 className="text-5xl md:text-7xl font-extrabold text-[#020b1f] mb-6 leading-tight">
+            <h2 className="text-4xl md:text-7xl font-extrabold text-[#020b1f] mb-6 leading-tight">
               Who We Are
             </h2>
 
@@ -332,7 +332,7 @@ export function AboutSection() {
 
             {/* Heading */}
             <div className="mb-16">
-              <h1 className="text-5xl md:text-7xl font-bold text-[#081229] mb-6">
+              <h1 className="text-4xl md:text-7xl font-bold text-[#081229] mb-6">
                 The Governing Body
               </h1>
 
@@ -384,9 +384,9 @@ export function AboutSection() {
             
 
             {/* Leadership Cards */}
-            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
+            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8 mb-12">
               <div className="bg-white rounded-[30px] p-8 shadow-md hover:-translate-y-1 transition-all duration-300">
-  <div className="w-16 h-16 rounded-2xl bg-[#eef6ff] flex items-center justify-center text-3xl mb-6">
+  <div className="w-16 h-16 rounded-2xl bg-[#eef6ff] flex items-center justify-center text-2xl md:text-3xl mb-6">
     📜
   </div>
 
@@ -414,7 +414,7 @@ export function AboutSection() {
               </div>
 
               <div className="bg-white rounded-[30px] p-8 shadow-md hover:-translate-y-1 transition-all duration-300">
-                <div className="w-16 h-16 rounded-2xl bg-[#eef6ff] flex items-center justify-center text-3xl mb-6">
+                <div className="w-16 h-16 rounded-2xl bg-[#eef6ff] flex items-center justify-center text-2xl md:text-3xl mb-6">
                   🏦
                 </div>
 
@@ -428,7 +428,7 @@ export function AboutSection() {
               </div>
 
               <div className="bg-white rounded-[30px] p-8 shadow-md hover:-translate-y-1 transition-all duration-300">
-                <div className="w-16 h-16 rounded-2xl bg-[#eef6ff] flex items-center justify-center text-3xl mb-6">
+                <div className="w-16 h-16 rounded-2xl bg-[#eef6ff] flex items-center justify-center text-2xl md:text-3xl mb-6">
                   🤝
                 </div>
 
@@ -447,7 +447,7 @@ export function AboutSection() {
             <div className="grid md:grid-cols-2 gap-6">
 
               <div className="bg-white rounded-2xl p-6 shadow-sm flex items-center gap-5">
-                <div className="text-3xl">👤</div>
+                <div className="text-2xl md:text-3xl">👤</div>
 
                 <div>
                   <h4 className="text-xl font-bold text-[#081229]">
@@ -461,7 +461,7 @@ export function AboutSection() {
               </div>
 
               <div className="bg-white rounded-2xl p-6 shadow-sm flex items-center gap-5">
-                <div className="text-3xl">👤</div>
+                <div className="text-2xl md:text-3xl">👤</div>
 
                 <div>
                   <h4 className="text-xl font-bold text-[#081229]">
@@ -489,10 +489,10 @@ export function AboutSection() {
               </div>
 
               <div className="bg-white rounded-2xl p-6 shadow-sm flex items-center gap-5">
-                <div className="text-3xl">👤</div>
+                <div className="text-2xl md:text-3xl">👤</div>
 
                 <div>
-                  <h4 className="text-xl font-bold text-[#081229]">
+                  <h4 className="text-base md:text-xl font-bold text-[#081229]">
                     V. Karthik
                   </h4>
 
@@ -513,7 +513,7 @@ export function AboutSection() {
     <div className="max-w-5xl mx-auto">
 
       <div className="mb-16">
-        <h2 className="text-5xl md:text-7xl font-serif font-bold text-[#020b1f] mb-6">
+        <h2 className="text-4xl md:text-7xl font-serif font-bold text-[#020b1f] mb-6">
           Impact Roadmap
         </h2>
 
@@ -603,7 +603,7 @@ export function AboutSection() {
                 </span>
               </div>
 
-              <h3 className="text-xl font-serif font-bold text-[#111827] mb-4">
+              <h3 className="text-xl md:text-2xl font-serif font-bold text-[#111827] mb-4">
                 {item.title}
               </h3>
 
