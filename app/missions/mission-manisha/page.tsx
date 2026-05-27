@@ -45,14 +45,13 @@ export default function MissionManishaPage() {
     <main className="min-h-screen bg-white overflow-x-hidden">
       <Navbar />
       {/* Missions Banner */}
-<section className="w-full">
+<section className="w-full overflow-hidden">
   <img
     src="/missions-banner.jpeg"
     alt="Our Missions"
-    className="w-full h-auto object-cover"
+    className="w-full h-[260px] md:h-auto object-cover object-center"
   />
 </section>
-
       {/* PAGE 1 - INTRO */}
       <section
        id="internship-enrollment">
