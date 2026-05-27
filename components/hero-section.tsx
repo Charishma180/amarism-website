@@ -2,17 +2,30 @@
 
 export function HeroSection() {
   return (
-    <section className="relative bg-white pt-16">
-      <div className="flex flex-col items-center justify-center min-h-screen px-6 md:px-10 lg:px-20">
-        
-        <h1 className="text-7xl md:text-8xl lg:text-[11rem] font-bold text-[#1a2e5a] tracking-tight mb-6">
+    <section className="relative min-h-screen overflow-hidden bg-black">
+      {/* Background Video */}
+      <div className="absolute inset-0 overflow-hidden">
+      <video
+  autoPlay
+  loop
+  muted
+  playsInline
+  className="absolute top-1/2 left-1/2 h-[100vw] w-[100vh] -translate-x-1/2 -translate-y-1/2 -rotate-90 object-cover scale-[1.25]"
+>
+  <source src="/amarism-bg.mp4" type="video/mp4" />
+</video>
+        <div className="absolute inset-0 bg-black/50"></div>
+      </div>
+
+      {/* Hero Content */}
+      <div className="relative z-10 flex flex-col items-center justify-center min-h-screen px-6 text-center">
+        <h1 className="text-6xl md:text-8xl lg:text-9xl font-bold text-white tracking-tight mb-6">
           AMARISM
         </h1>
 
-        <p className="text-lg md:text-2xl text-gray-500 font-light tracking-wide text-center max-w-3xl">
+        <p className="text-lg md:text-2xl text-white/85 font-light tracking-wide max-w-3xl">
           Building Young Minds Through Smart Interaction
         </p>
-
       </div>
     </section>
   );
