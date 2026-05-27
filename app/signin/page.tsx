@@ -24,6 +24,8 @@ export default function SignInPage() {
         await signInWithEmailAndPassword(auth, email, password);
         alert("Login successful!");
       }
+    } catch (error: any) {
+      alert(error.message);
     }
   };
 
@@ -33,6 +35,7 @@ export default function SignInPage() {
       await signInWithPopup(auth, provider);
       alert("Google Login Successful!");
     } catch (error: any) {
+      if (error.code === "auth/popup-closed-by-user") return;
       alert(error.message);
     }
   };
@@ -78,7 +81,10 @@ export default function SignInPage() {
             </button>
 
             <p className="text-center text-sm text-gray-600">
-              {isSignup ? "Already have an account? " : "Don’t have an account? "}
+              {isSignup
+                ? "Already have an account? "
+                : "Don’t have an account? "}
+
               <button
                 onClick={() => setIsSignup(!isSignup)}
                 className="text-blue-600 font-medium"
@@ -103,6 +109,7 @@ export default function SignInPage() {
                 alt="Google"
                 className="w-5 h-5"
               />
+
               Login with Google
             </button>
           </div>

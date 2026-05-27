@@ -578,7 +578,7 @@ export function AboutSection() {
               "How They Are studying",
             ],
             place: "ZPHS Pachikapallam",
-            note: "With Cooperation T: Bajeswari Madam (Social Teacher)",
+            note: "With Cooperation T: Rajeswari Madam (Social Teacher)",
             side: "left",
           },
           {
