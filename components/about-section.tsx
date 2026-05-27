@@ -193,7 +193,7 @@ export function AboutSection() {
               })}
             </div>
 
-            <div className="bg-white border border-gray-200 rounded-[20px] p-6 md:p-7 mb-20 shadow-sm relative overflow-hidden">
+            <div className="bg-white border border-gray-200 rounded-[20px] p-6 md:p-7 mb-20 md:mb-20 shadow-sm relative overflow-hidden">
               <div className="flex items-center gap-3 mb-5">
                 <Target className="w-8 h-8 text-[#087f5b]" />
 
@@ -217,7 +217,7 @@ export function AboutSection() {
 {activeTab === "core-values" && (
   <section className="bg-[#f8fbfb] py-16 md:py-24 px-5 md:px-6">
     <div className="max-w-7xl mx-auto">
-      <div className="mb-14 md:mb-20">
+      <div className="mb-10 md:mb-20">
         <div className="w-16 h-2 bg-[#14b89a] rounded-full mb-6 md:mb-8"></div>
 
         <h1 className="text-4xl md:text-7xl font-bold text-[#020b1f] mb-6 md:mb-8">
@@ -578,7 +578,7 @@ export function AboutSection() {
         ].map((item, index) => (
           <div
             key={index}
-            className={`relative mb-16 md:mb-20 flex ${
+            className={`relative mb-10 md:mb-20 flex ${
               item.side === "left" ? "md:justify-start" : "md:justify-end"
             }`}
           >
