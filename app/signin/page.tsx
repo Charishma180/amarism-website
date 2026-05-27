@@ -2,9 +2,42 @@
 
 import { useState } from "react";
 import { Navbar } from "@/components/navbar";
+import {
+  signInWithEmailAndPassword,
+  createUserWithEmailAndPassword,
+  signInWithPopup,
+  GoogleAuthProvider,
+} from "firebase/auth";
+import { auth } from "@/lib/firebase";
 
 export default function SignInPage() {
   const [isSignup, setIsSignup] = useState(false);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const handleEmailAuth = async () => {
+    try {
+      if (isSignup) {
+        await createUserWithEmailAndPassword(auth, email, password);
+        alert("Signup successful!");
+      } else {
+        await signInWithEmailAndPassword(auth, email, password);
+        alert("Login successful!");
+      }
+    } catch (error: any) {
+      alert(error.message);
+    }
+  };
+
+  const handleGoogleSignin = async () => {
+    try {
+      const provider = new GoogleAuthProvider();
+      await signInWithPopup(auth, provider);
+      alert("Google Login Successful!");
+    } catch (error: any) {
+      alert(error.message);
+    }
+  };
 
   return (
     <main className="min-h-screen bg-[#f8fbff]">
@@ -20,22 +53,18 @@ export default function SignInPage() {
             <input
               type="email"
               placeholder="Email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               className="w-full border border-gray-300 rounded-md px-4 py-3 outline-none"
             />
 
             <input
               type="password"
               placeholder={isSignup ? "Create password" : "Password"}
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
               className="w-full border border-gray-300 rounded-md px-4 py-3 outline-none"
             />
-
-            {isSignup && (
-              <input
-                type="password"
-                placeholder="Confirm password"
-                className="w-full border border-gray-300 rounded-md px-4 py-3 outline-none"
-              />
-            )}
 
             {!isSignup && (
               <p className="text-center text-sm text-blue-600 cursor-pointer">
@@ -44,9 +73,7 @@ export default function SignInPage() {
             )}
 
             <button
-              onClick={() =>
-                alert(`${isSignup ? "Signup" : "Login"} will be enabled soon.`)
-              }
+              onClick={handleEmailAuth}
               className="w-full bg-[#087bdc] text-white py-3 rounded-md font-semibold"
             >
               {isSignup ? "Signup" : "Login"}
@@ -69,7 +96,8 @@ export default function SignInPage() {
             </div>
 
             <button
-              onClick={() => alert("Google Sign-In will be enabled soon.")}
+              type="button"
+              onClick={handleGoogleSignin}
               className="w-full border border-gray-300 rounded-md py-3 flex items-center justify-center gap-3 text-gray-700"
             >
               <img
@@ -77,7 +105,7 @@ export default function SignInPage() {
                 alt="Google"
                 className="w-5 h-5"
               />
-              {isSignup ? "Login with Google" : "Login with Google"}
+              Login with Google
             </button>
           </div>
         </div>
