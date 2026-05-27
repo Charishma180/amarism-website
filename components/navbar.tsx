@@ -41,7 +41,7 @@ const navItems = [
   },
   { name: "Gallery", href: "#gallery" },
   { name: "Legal Aid", href: "#legal-aid" },
-  { name: "Contact Us", href: "#contact" },
+ { name: "Contact Us", href: "/contact" },
 ];
 
 export function Navbar() {

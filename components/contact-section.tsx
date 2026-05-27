@@ -25,9 +25,11 @@ ${message}
   window.open(url, "_blank");
 };
   return (
-    <section id="contact" className="py-16 px-4 bg-white">
-      <div className="max-w-4xl mx-auto">
-        <div className="grid md:grid-cols-2 gap-12">
+  <section
+    id="contact"
+    className="relative py-20 px-4 bg-white overflow-hidden"
+  >
+    <div className="max-w-7xl mx-auto px-6 grid lg:grid-cols-2 gap-20 items-start">
           {/* Left Column - Contact Info */}
           <div>
             <span className="text-sm font-semibold tracking-wider text-[#0d9488] uppercase">
@@ -124,7 +126,6 @@ ${message}
             </form>
           </div>
         </div>
-      </div>
     </section>
   );
 }

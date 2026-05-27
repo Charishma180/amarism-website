@@ -26,7 +26,7 @@ export function SocialBar() {
 
           {/* WhatsApp */}
           <a
-            href="https://api.whatsapp.com/send?phone=918341390975"
+            href="https://wa.me/918341390975"
             target="_blank"
             rel="noopener noreferrer"
             className="group w-9 h-9 rounded-xl bg-[#25D366]/15 hover:bg-[#25D366] transition-all duration-300 flex items-center justify-center"
