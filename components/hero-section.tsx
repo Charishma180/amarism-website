@@ -12,13 +12,14 @@ export function HeroSection() {
           muted
           playsInline
           className="
-            absolute top-1/2 left-1/2
-            h-[115vw] w-[115vh]
-            -translate-x-1/2 -translate-y-1/2
-            -rotate-90 object-cover
-            scale-[1.65]
-            md:scale-[1.25]
-          "
+absolute top-1/2 left-1/2
+h-[140vw] w-[140vh]
+-translate-x-1/2 -translate-y-1/2
+-rotate-90 object-cover
+scale-[1.9]
+md:h-[110vw] md:w-[110vh]
+md:scale-[1.35]
+"
         >
           <source src="/amarism-bg.mp4" type="video/mp4" />
         </video>
