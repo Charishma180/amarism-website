@@ -93,14 +93,14 @@ export function Navbar() {
               <>
                 <Link
                   href="/signin"
-                  className="hidden sm:flex px-4 py-2 rounded-full border border-[#1a2e5a] text-[#1a2e5a] text-sm font-semibold hover:bg-[#1a2e5a] hover:text-white transition"
+                  className="flex px-4 py-2 rounded-full border border-[#1a2e5a] text-[#1a2e5a] text-sm font-semibold hover:bg-[#1a2e5a] hover:text-white transition"
                 >
                   Login
                 </Link>
 
                 <Link
                   href="/signup"
-                  className="hidden sm:flex px-4 py-2 rounded-full bg-[#1a2e5a] text-white text-sm font-semibold hover:bg-[#122347] transition"
+                  className="flex px-4 py-2 rounded-full bg-[#1a2e5a] text-white text-sm font-semibold hover:bg-[#122347] transition"
                 >
                   Sign Up
                 </Link>
