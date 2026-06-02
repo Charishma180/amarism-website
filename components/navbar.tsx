@@ -1,8 +1,16 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
-import { Menu, X, ChevronDown, ChevronUp } from "lucide-react";
+import {
+  Menu,
+  X,
+  ChevronDown,
+  ChevronUp,
+  UserCircle,
+} from "lucide-react";
+import { onAuthStateChanged } from "firebase/auth";
+import { auth } from "@/lib/firebase";
 
 const navItems = [
   { name: "Home", href: "/" },
@@ -24,29 +32,35 @@ const navItems = [
       { name: "Nyaya Sadan", href: "#nyaya-sadan" },
       { name: "Mission Trupti", href: "#mission-trupti" },
       { name: "Mission Manoswasthya", href: "#mission-manoswasthya" },
-      { name: "Mission Jeeva Dhara",href: "#mission-jeevadhara",
-},
-    
+      { name: "Mission Jeeva Dhara", href: "#mission-jeevadhara" },
     ],
   },
   {
     name: "Get Involved",
     href: "#get-involved",
     subItems: [
-      { name: "Be a Patron", href: "/patron", highlight:true  },
+      { name: "Be a Patron", href: "/patron", highlight: true },
       { name: "Volunteer Enrollment", href: "/volunteer" },
-{ name: "Internship Enrollment", href: "/internship" },
-     
+      { name: "Internship Enrollment", href: "/internship" },
     ],
   },
   { name: "Gallery", href: "#gallery" },
   { name: "Legal Aid", href: "#legal-aid" },
- { name: "Contact Us", href: "/contact" },
+  { name: "Contact Us", href: "/contact" },
 ];
 
 export function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [expandedItems, setExpandedItems] = useState<string[]>([]);
+  const [user, setUser] = useState<any>(null);
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      setUser(currentUser);
+    });
+
+    return () => unsubscribe();
+  }, []);
 
   const toggleExpand = (name: string) => {
     setExpandedItems((prev) =>
@@ -56,37 +70,42 @@ export function Navbar() {
 
   return (
     <>
-      {/* Header */}
       <header className="fixed top-0 left-0 right-0 z-50 bg-white border-b border-gray-100">
         <div className="flex items-center justify-between px-4 py-3 max-w-7xl mx-auto">
-          {/* Logo */}
           <Link href="/" className="flex items-center gap-2">
             <img
-  src="/amarism-logo.jpeg"
-  alt="AMARISM Logo"
-  className="w-11 h-11 object-contain"
-/>
+              src="/amarism-logo.jpeg"
+              alt="AMARISM Logo"
+              className="w-11 h-11 object-contain"
+            />
 
             <span className="text-xl font-bold text-[#1a2e5a]">
               AMARISM
             </span>
           </Link>
 
-          {/* Login / Signup / Menu */}
           <div className="flex items-center gap-3">
-            <Link
-              href="/signin"
-              className="hidden sm:flex px-4 py-2 rounded-full border border-[#1a2e5a] text-[#1a2e5a] text-sm font-semibold hover:bg-[#1a2e5a] hover:text-white transition"
-            >
-              Login
-            </Link>
+            {user ? (
+              <Link href="/profile" aria-label="Profile">
+                <UserCircle className="w-9 h-9 text-[#1a2e5a]" />
+              </Link>
+            ) : (
+              <>
+                <Link
+                  href="/signin"
+                  className="hidden sm:flex px-4 py-2 rounded-full border border-[#1a2e5a] text-[#1a2e5a] text-sm font-semibold hover:bg-[#1a2e5a] hover:text-white transition"
+                >
+                  Login
+                </Link>
 
-            <Link
-              href="/signup"
-              className="hidden sm:flex px-4 py-2 rounded-full bg-[#1a2e5a] text-white text-sm font-semibold hover:bg-[#122347] transition"
-            >
-              Sign Up
-            </Link>
+                <Link
+                  href="/signup"
+                  className="hidden sm:flex px-4 py-2 rounded-full bg-[#1a2e5a] text-white text-sm font-semibold hover:bg-[#122347] transition"
+                >
+                  Sign Up
+                </Link>
+              </>
+            )}
 
             <button
               onClick={() => setIsOpen(true)}
@@ -99,7 +118,6 @@ export function Navbar() {
         </div>
       </header>
 
-      {/* Mobile Menu Overlay */}
       {isOpen && (
         <div className="fixed inset-0 z-[100] bg-white overflow-y-auto">
           <div className="p-4">
@@ -114,8 +132,6 @@ export function Navbar() {
                 <X className="w-6 h-6" />
               </button>
             </div>
-
-            
 
             <nav className="space-y-0">
               {navItems.map((item) => (

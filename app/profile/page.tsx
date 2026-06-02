@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { onAuthStateChanged } from "firebase/auth";
+import { onAuthStateChanged, signOut } from "firebase/auth";
 import { doc, getDoc } from "firebase/firestore";
 import { useRouter } from "next/navigation";
 
@@ -33,6 +33,12 @@ export default function ProfilePage() {
     return () => unsubscribe();
   }, [router]);
 
+  const handleLogout = async () => {
+    await signOut(auth);
+    alert("Logged out successfully!");
+    router.push("/");
+  };
+
   if (loading) {
     return <p className="pt-32 text-center">Loading profile...</p>;
   }
@@ -48,11 +54,26 @@ export default function ProfilePage() {
           </h1>
 
           <div className="space-y-4 text-lg">
-            <p><b>Name:</b> {userData?.fullName}</p>
-            <p><b>Email:</b> {userData?.email}</p>
-            <p><b>Role:</b> {userData?.role}</p>
-            <p><b>Member ID:</b> {userData?.memberId}</p>
+            <p>
+              <b>Name:</b> {userData?.fullName}
+            </p>
+            <p>
+              <b>Email:</b> {userData?.email}
+            </p>
+            <p>
+              <b>Role:</b> {userData?.role}
+            </p>
+            <p>
+              <b>Member ID:</b> {userData?.memberId}
+            </p>
           </div>
+
+          <button
+            onClick={handleLogout}
+            className="mt-8 w-full bg-red-500 hover:bg-red-600 text-white py-3 rounded-xl font-bold transition"
+          >
+            Logout
+          </button>
         </div>
       </section>
     </main>
