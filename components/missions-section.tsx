@@ -13,11 +13,11 @@ const missions = [
     link: "/missions/mission-manisha",
   },
   {
-    icon: Scale,
-    title: "Nyaya Sadan",
-    description:
-      "Nyaya Sadan addresses this gap by transforming legal awareness into legal empowerment.",
-    link: "#nyaya-sadan",
+   icon: Scale,
+title: "Nyaya Sadan",
+description:
+  "Nyaya Sadan addresses this gap by transforming legal awareness into legal empowerment.",
+link: "/missions/nyaya-sadan",
   },
   {
     icon: Utensils,

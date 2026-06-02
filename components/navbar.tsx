@@ -29,7 +29,7 @@ const navItems = [
     href: "#missions",
     subItems: [
       { name: "Mission Manisha", href: "/missions/mission-manisha" },
-      { name: "Nyaya Sadan", href: "#nyaya-sadan" },
+      { name: "Nyaya Sadan", href: "/missions/nyaya-sadan" },
       { name: "Mission Trupti", href: "#mission-trupti" },
       { name: "Mission Manoswasthya", href: "#mission-manoswasthya" },
       { name: "Mission Jeeva Dhara", href: "#mission-jeevadhara" },
