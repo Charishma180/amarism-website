@@ -1,45 +1,48 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { Navbar } from "@/components/navbar";
 import {
   signInWithEmailAndPassword,
-  createUserWithEmailAndPassword,
   signInWithPopup,
   GoogleAuthProvider,
 } from "firebase/auth";
 import { auth } from "@/lib/firebase";
 
 export default function SignInPage() {
-  const [isSignup, setIsSignup] = useState(false);
+  const router = useRouter();
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
 
-  const handleEmailAuth = async () => {
+  const handleEmailLogin = async () => {
+    if (!email || !password) {
+      alert("Please enter email and password");
+      return;
+    }
+
     try {
-      if (isSignup) {
-        await createUserWithEmailAndPassword(auth, email, password);
-        alert("Signup successful!");
-      } else {
-        await signInWithEmailAndPassword(auth, email, password);
-        alert("Login successful!");
-      }
-    } catch (error: any) {
-      alert(error.message);
+      await signInWithEmailAndPassword(auth, email, password);
+      alert("Login successful!");
+      router.push("/profile");
+    } catch (error) {
+      alert("Invalid credentials");
     }
   };
 
   const handleGoogleSignin = async () => {
-  try {
-    const provider = new GoogleAuthProvider();
-    await signInWithPopup(auth, provider);
-    alert("Google Login Successful!");
-  } catch (error: any) {
-    if (error.code === "auth/popup-closed-by-user") return;
-
-    alert("Unable to sign in with Google. Please try again.");
-  }
-};
+    try {
+      const provider = new GoogleAuthProvider();
+      await signInWithPopup(auth, provider);
+      alert("Google Login Successful!");
+      router.push("/profile");
+    } catch (error: any) {
+      if (error.code === "auth/popup-closed-by-user") return;
+      alert("Unable to sign in with Google. Please try again.");
+    }
+  };
 
   return (
     <main className="min-h-screen bg-[#f8fbff]">
@@ -48,7 +51,7 @@ export default function SignInPage() {
       <section className="pt-32 px-6 flex items-center justify-center">
         <div className="bg-white rounded-2xl shadow-2xl p-8 w-full max-w-md">
           <h1 className="text-3xl font-bold text-center text-[#081229] mb-8">
-            {isSignup ? "Signup" : "Login"}
+            Login
           </h1>
 
           <div className="space-y-5">
@@ -60,38 +63,40 @@ export default function SignInPage() {
               className="w-full border border-gray-300 rounded-md px-4 py-3 outline-none"
             />
 
-            <input
-              type="password"
-              placeholder={isSignup ? "Create password" : "Password"}
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="w-full border border-gray-300 rounded-md px-4 py-3 outline-none"
-            />
+            <div className="relative">
+              <input
+                type={showPassword ? "text" : "password"}
+                placeholder="Password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="w-full border border-gray-300 rounded-md px-4 py-3 pr-12 outline-none"
+              />
 
-            {!isSignup && (
-              <p className="text-center text-sm text-blue-600 cursor-pointer">
-                Forgot password?
-              </p>
-            )}
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-500"
+              >
+                {showPassword ? "🙈" : "👁️"}
+              </button>
+            </div>
+
+            <p className="text-center text-sm text-blue-600 cursor-pointer">
+              Forgot password?
+            </p>
 
             <button
-              onClick={handleEmailAuth}
+              onClick={handleEmailLogin}
               className="w-full bg-[#087bdc] text-white py-3 rounded-md font-semibold"
             >
-              {isSignup ? "Signup" : "Login"}
+              Login
             </button>
 
             <p className="text-center text-sm text-gray-600">
-              {isSignup
-                ? "Already have an account? "
-                : "Don’t have an account? "}
-
-              <button
-                onClick={() => setIsSignup(!isSignup)}
-                className="text-blue-600 font-medium"
-              >
-                {isSignup ? "Login" : "Signup"}
-              </button>
+              Don’t have an account?{" "}
+              <a href="/signup" className="text-blue-600 font-medium">
+                Signup
+              </a>
             </p>
 
             <div className="flex items-center gap-3">
@@ -110,7 +115,6 @@ export default function SignInPage() {
                 alt="Google"
                 className="w-5 h-5"
               />
-
               Login with Google
             </button>
           </div>
