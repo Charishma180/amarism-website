@@ -30,15 +30,16 @@ export default function SignInPage() {
   };
 
   const handleGoogleSignin = async () => {
-    try {
-      const provider = new GoogleAuthProvider();
-      await signInWithPopup(auth, provider);
-      alert("Google Login Successful!");
-    } catch (error: any) {
-      if (error.code === "auth/popup-closed-by-user") return;
-      alert(error.message);
-    }
-  };
+  try {
+    const provider = new GoogleAuthProvider();
+    await signInWithPopup(auth, provider);
+    alert("Google Login Successful!");
+  } catch (error: any) {
+    if (error.code === "auth/popup-closed-by-user") return;
+
+    alert("Unable to sign in with Google. Please try again.");
+  }
+};
 
   return (
     <main className="min-h-screen bg-[#f8fbff]">

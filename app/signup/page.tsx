@@ -42,8 +42,10 @@ export default function SignupPage() {
 
       alert("Account created successfully!");
     } catch (error: any) {
-      alert(error.message);
-    }
+  if (error.code === "auth/popup-closed-by-user") return;
+
+  alert("Invalid credentials");
+}
   };
 
   const handleGoogleSignup = async () => {
