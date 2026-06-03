@@ -19,9 +19,9 @@ const navItems = [
     href: "#about",
     subItems: [
       { name: "What is AMARISM?", href: "/about" },
-      { name: "People behind AMARISM", href: "#people" },
-      { name: "Partnered Colleges", href: "#partners" },
-      { name: "Corporate Partnership", href: "#corporate" },
+      { name: "People behind AMARISM", href: "/people-behind-amarism" },
+      { name: "Partnered Colleges", href: "/partnered-colleges" },
+      { name: "Corporate Partnership", href: "/corporate-partnership" },
     ],
   },
   {
