@@ -24,21 +24,21 @@ link: "/missions/nyaya-sadan",
     title: "Mission Trupti",
     description:
       "Daily nutritional support for the elderly and abandoned, ensuring no one sleeps hungry.",
-    link: "#mission-trupti",
+    link: "/missions/mission-trupti",
   },
   {
     icon: Brain,
     title: "Mission Mano Swasthya",
     description:
       "A strong nation requires not only educated citizens, but emotionally balanced and mentally healthy individuals.",
-    link: "#mission-manoswasthya",
+    link: "/missions/mission-manoswasthya",
   },
   {
   icon: Beaker,
   title: "Mission Jeeva Dhara",
   description:
     "Mission Jeevadhara is the rural innovation and technological empowerment wing dedicated to bringing sustainable solutions.",
-  link: "#mission-jeevadhara",
+ link: "/missions/mission-jeeva-dhara",
 },
 ];
 

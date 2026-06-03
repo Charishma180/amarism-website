@@ -7,16 +7,16 @@ export default function Page() {
 
       <section className="pt-40 px-6 text-center">
         <h1 className="text-5xl font-bold text-[#081229] mb-4">
-            Nyaya Sadan Mission
+          Mission Trupti
         </h1>
 
         <p className="text-2xl font-semibold text-[#1a2e5a]">
           Launching Soon
         </p>
 
-        <p className="text-gray-600 text-lg max-w-xl mx-auto">
-          Nyaya Sadan mission page is currently being prepared.
-          Stay connected with AMARISM for updates.
+        <p className="text-gray-600 text-lg">
+          Mission Trupti page is currently under development.
+          Stay connected as we launch this mission in June 2026.
         </p>
       </section>
     </main>

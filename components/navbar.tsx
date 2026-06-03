@@ -30,9 +30,9 @@ const navItems = [
     subItems: [
       { name: "Mission Manisha", href: "/missions/mission-manisha" },
       { name: "Nyaya Sadan", href: "/missions/nyaya-sadan" },
-      { name: "Mission Trupti", href: "#mission-trupti" },
-      { name: "Mission Manoswasthya", href: "#mission-manoswasthya" },
-      { name: "Mission Jeeva Dhara", href: "#mission-jeevadhara" },
+      { name: "Mission Trupti", href: "/missions/mission-trupti" },
+      { name: "Mission Manoswasthya", href: "/missions/mission-manoswasthya" },
+      { name: "Mission Jeeva Dhara", href: "/missions/mission-jeeva-dhara" },
     ],
   },
   {
