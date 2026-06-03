@@ -44,7 +44,7 @@ const navItems = [
       { name: "Internship Enrollment", href: "/internship" },
     ],
   },
-  { name: "Gallery", href: "#gallery" },
+  { name: "Gallery", href: "/gallery" },
   { name: "Legal Aid", href: "#legal-aid" },
   { name: "Contact Us", href: "/contact" },
 ];
