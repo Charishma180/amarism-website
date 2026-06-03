@@ -7,6 +7,7 @@ import {
   signInWithEmailAndPassword,
   signInWithPopup,
   GoogleAuthProvider,
+  sendPasswordResetEmail,
 } from "firebase/auth";
 import { auth } from "@/lib/firebase";
 
@@ -29,6 +30,20 @@ export default function SignInPage() {
       router.push("/profile");
     } catch (error) {
       alert("Invalid credentials");
+    }
+  };
+
+  const handleForgotPassword = async () => {
+    if (!email) {
+      alert("Please enter your email first");
+      return;
+    }
+
+    try {
+      await sendPasswordResetEmail(auth, email);
+      alert("Password reset link sent to your email");
+    } catch (error) {
+      alert("Unable to send reset link. Please check your email.");
     }
   };
 
@@ -81,9 +96,13 @@ export default function SignInPage() {
               </button>
             </div>
 
-            <p className="text-center text-sm text-blue-600 cursor-pointer">
+            <button
+              type="button"
+              onClick={handleForgotPassword}
+              className="block mx-auto text-sm text-blue-600 cursor-pointer"
+            >
               Forgot password?
-            </p>
+            </button>
 
             <button
               onClick={handleEmailLogin}

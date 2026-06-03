@@ -12,15 +12,22 @@ import {
   query,
   orderBy,
 } from "firebase/firestore";
+import { onAuthStateChanged } from "firebase/auth";
 
-import { db } from "@/lib/firebase";
+import { auth, db } from "@/lib/firebase";
 import { Navbar } from "@/components/navbar";
 import { AmarismFooter } from "@/components/amarism-footer";
 import { SocialBar } from "@/components/social-bar";
 
+const admins = [
+  "charishmapillapalem@gmail.com",
+  "vadimgaduramu@gmail.com",
+];
+
 export default function GalleryPage() {
   const [items, setItems] = useState<any[]>([]);
   const [showForm, setShowForm] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
 
   const [title, setTitle] = useState("");
   const [url, setUrl] = useState("");
@@ -40,9 +47,20 @@ export default function GalleryPage() {
 
   useEffect(() => {
     fetchGallery();
+
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      setIsAdmin(admins.includes(user?.email || ""));
+    });
+
+    return () => unsubscribe();
   }, []);
 
   const handleAddGallery = async () => {
+    if (!isAdmin) {
+      alert("Only admin can add gallery items");
+      return;
+    }
+
     if (!title || !url) {
       alert("Please enter title and URL");
       return;
@@ -66,8 +84,12 @@ export default function GalleryPage() {
   };
 
   const handleDelete = async (id: string) => {
-    const confirmDelete = confirm("Delete this gallery item?");
+    if (!isAdmin) {
+      alert("Only admin can delete gallery items");
+      return;
+    }
 
+    const confirmDelete = confirm("Delete this gallery item?");
     if (!confirmDelete) return;
 
     await deleteDoc(doc(db, "gallery", id));
@@ -95,15 +117,17 @@ export default function GalleryPage() {
               Photos and memories from Amarism initiatives.
             </p>
 
-            <button
-              onClick={() => setShowForm(!showForm)}
-              className="mx-auto mb-10 w-14 h-14 rounded-full bg-[#082f73] text-white flex items-center justify-center shadow-lg hover:scale-105 transition"
-            >
-              <Plus className="w-7 h-7" />
-            </button>
+            {isAdmin && (
+              <button
+                onClick={() => setShowForm(!showForm)}
+                className="mx-auto mb-10 w-14 h-14 rounded-full bg-[#082f73] text-white flex items-center justify-center shadow-lg hover:scale-105 transition"
+              >
+                <Plus className="w-7 h-7" />
+              </button>
+            )}
           </div>
 
-          {showForm && (
+          {isAdmin && showForm && (
             <div className="max-w-xl mx-auto bg-[#f8fbfb] border rounded-3xl p-6 mb-12">
               <h2 className="text-2xl font-bold text-[#081229] mb-5">
                 Add Gallery Item
@@ -182,12 +206,14 @@ export default function GalleryPage() {
                       {item.title}
                     </h3>
 
-                    <button
-                      onClick={() => handleDelete(item.id)}
-                      className="mt-4 w-full bg-red-500 hover:bg-red-600 text-white py-2 rounded-xl font-semibold transition"
-                    >
-                      Delete
-                    </button>
+                    {isAdmin && (
+                      <button
+                        onClick={() => handleDelete(item.id)}
+                        className="mt-4 w-full bg-red-500 hover:bg-red-600 text-white py-2 rounded-xl font-semibold transition"
+                      >
+                        Delete
+                      </button>
+                    )}
                   </div>
                 </div>
               ))}
