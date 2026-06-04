@@ -8,6 +8,11 @@ import { useRouter } from "next/navigation";
 import { auth, db } from "@/lib/firebase";
 import { Navbar } from "@/components/navbar";
 
+const admins = [
+  "charishmapillapalem@gmail.com",
+  "vadimgaduramu@gmail.com",
+];
+
 export default function ProfilePage() {
   const router = useRouter();
   const [userData, setUserData] = useState<any>(null);
@@ -57,20 +62,33 @@ export default function ProfilePage() {
             <p>
               <b>Name:</b> {userData?.fullName}
             </p>
+
             <p>
               <b>Email:</b> {userData?.email}
             </p>
+
             <p>
               <b>Role:</b> {userData?.role}
             </p>
+
             <p>
               <b>Member ID:</b> {userData?.memberId}
             </p>
           </div>
 
+          {/* ADMIN DASHBOARD BUTTON */}
+          {admins.includes(userData?.email?.toLowerCase()) && (
+            <a
+              href="/admin"
+              className="block mt-8 w-full bg-[#081229] hover:bg-[#10264d] text-white py-3 rounded-xl font-bold text-center transition"
+            >
+              Open Admin Dashboard
+            </a>
+          )}
+
           <button
             onClick={handleLogout}
-            className="mt-8 w-full bg-red-500 hover:bg-red-600 text-white py-3 rounded-xl font-bold transition"
+            className="mt-4 w-full bg-red-500 hover:bg-red-600 text-white py-3 rounded-xl font-bold transition"
           >
             Logout
           </button>
