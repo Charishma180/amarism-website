@@ -29,13 +29,13 @@ md:scale-[1.35]
 
       {/* Hero Content */}
       <div className="relative z-10 flex flex-col items-center justify-center min-h-[100svh] px-6 text-center">
-        <h1 className="text-5xl md:text-8xl lg:text-9xl font-bold text-white tracking-tight mb-4">
-          AMARISM
-        </h1>
+        <h1 className="text-6xl md:text-8xl font-bold text-white animate-slideSlow">
+  AMARISM
+</h1>
 
-        <p className="text-xl md:text-2xl text-white/90 font-light tracking-wide max-w-3xl">
-          Building Young Minds Through Smart Interaction
-        </p>
+<p className="mt-4 text-xl md:text-3xl text-white/90 animate-slideSlowText">
+  Building Young Minds Through Smart Interaction
+</p>
       </div>
     </section>
   );
