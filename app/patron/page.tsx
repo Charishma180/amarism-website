@@ -1,9 +1,107 @@
 "use client";
 
 import { useState } from "react";
+import { addDoc, collection, serverTimestamp } from "firebase/firestore";
+import { db } from "@/lib/firebase";
+
+declare global {
+  interface Window {
+    Razorpay: any;
+  }
+}
+
 export default function PatronPage() {
-    const [selectedAmount, setSelectedAmount] = useState("99");
-  const amounts = ["99", "199", "299", "499", "999", "1499", "1999", "2499", "2999", "4999"];
+  const [selectedAmount, setSelectedAmount] = useState("99");
+  const [fullName, setFullName] = useState("");
+  const [mobile, setMobile] = useState("");
+
+  const amounts = [
+    "99",
+    "199",
+    "299",
+    "499",
+    "999",
+    "1499",
+    "1999",
+    "2499",
+    "2999",
+    "4999",
+  ];
+
+  const loadRazorpayScript = () => {
+    return new Promise((resolve) => {
+      const script = document.createElement("script");
+      script.src = "https://checkout.razorpay.com/v1/checkout.js";
+      script.onload = () => resolve(true);
+      script.onerror = () => resolve(false);
+      document.body.appendChild(script);
+    });
+  };
+
+  const handlePayment = async () => {
+    if (!fullName || !mobile) {
+      alert("Please enter full name and mobile number");
+      return;
+    }
+
+    const scriptLoaded = await loadRazorpayScript();
+
+    if (!scriptLoaded) {
+      alert("Razorpay SDK failed to load. Check your internet connection.");
+      return;
+    }
+
+    const response = await fetch("/api/create-order", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ amount: Number(selectedAmount) }),
+    });
+
+    const order = await response.json();
+
+    if (!order.id) {
+      alert("Unable to create payment order");
+      return;
+    }
+
+    const options = {
+      key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
+      amount: order.amount,
+      currency: "INR",
+      name: "AMARISM",
+      description: "Patron Contribution",
+      order_id: order.id,
+
+      handler: async function (response: any) {
+        await addDoc(collection(db, "donations"), {
+          donorName: fullName,
+          mobile: mobile,
+          amount: Number(selectedAmount),
+          paymentId: response.razorpay_payment_id,
+          orderId: response.razorpay_order_id,
+          signature: response.razorpay_signature,
+          mode: "test",
+          status: "success",
+          createdAt: serverTimestamp(),
+        });
+
+        alert("Donation Successful ❤️");
+      },
+
+      prefill: {
+        name: fullName,
+        contact: mobile,
+      },
+      theme: {
+        color: "#009f73",
+      },
+    };
+
+    const razorpay = new window.Razorpay(options);
+    razorpay.open();
+  };
 
   return (
     <main className="bg-[#faf9f5] min-h-screen px-5 py-20">
@@ -17,8 +115,8 @@ export default function PatronPage() {
         </button>
 
         <p className="text-gray-500 text-xl leading-8 max-w-2xl mb-10">
-          Amarism is dedicated to hunger eradication, rural empowerment, and legal aid.
-          Every rupee you contribute goes directly to the field.
+          Amarism is dedicated to hunger eradication, rural empowerment, and
+          legal aid. Every rupee you contribute goes directly to the field.
         </p>
 
         <div className="grid md:grid-cols-2 gap-6 mb-12">
@@ -28,9 +126,14 @@ export default function PatronPage() {
             ["⚕️", "₹5000", "Funds a rural medical camp session."],
             ["🏛️", "Premium", "Joins our Advisory Council patronage."],
           ].map(([icon, title, desc]) => (
-            <div key={title} className="bg-white rounded-3xl p-8 border shadow-sm">
+            <div
+              key={title}
+              className="bg-white rounded-3xl p-8 border shadow-sm"
+            >
               <div className="text-4xl mb-5">{icon}</div>
-              <h3 className="text-2xl font-bold text-[#081229] mb-2">{title}</h3>
+              <h3 className="text-2xl font-bold text-[#081229] mb-2">
+                {title}
+              </h3>
               <p className="text-gray-500">{desc}</p>
             </div>
           ))}
@@ -42,20 +145,25 @@ export default function PatronPage() {
               ⭐ FOUNDATION PATRON PROTOCOL ⭐
             </p>
             <h2 className="text-2xl font-serif font-bold mt-3">
-              🔁 Secure Autopay Only
+              🔐 Secure Test Payment
             </h2>
             <p className="text-[#009f73] text-xs font-bold mt-2">
-              AUTOMATIC RECURRING CONTRIBUTIONS
+              RAZORPAY TEST MODE
             </p>
           </div>
 
           <div className="space-y-6 mb-10">
             <input
               placeholder="Full Name"
+              value={fullName}
+              onChange={(e) => setFullName(e.target.value)}
               className="w-full bg-gray-50 rounded-2xl px-6 py-5 outline-none"
             />
+
             <input
               placeholder="Mobile Number"
+              value={mobile}
+              onChange={(e) => setMobile(e.target.value)}
               className="w-full bg-gray-50 rounded-2xl px-6 py-5 outline-none"
             />
           </div>
@@ -66,30 +174,29 @@ export default function PatronPage() {
 
           <div className="grid grid-cols-2 md:grid-cols-3 gap-5 mb-10">
             {amounts.map((amount) => (
-  <button
-    key={amount}
-    onClick={() => setSelectedAmount(amount)}
-    className={`rounded-2xl py-6 font-bold text-xl shadow-sm transition-all ${
-      selectedAmount === amount
-        ? "bg-[#10b981] text-white border-[#10b981]"
-        : "bg-white border text-[#081229]"
-    }`}
-  >
-    ₹{amount}
-
-    <p className="text-xs mt-1 opacity-80">
-      / AUTOPAY
-    </p>
-  </button>
-))}
+              <button
+                key={amount}
+                onClick={() => setSelectedAmount(amount)}
+                className={`rounded-2xl py-6 font-bold text-xl shadow-sm transition-all ${
+                  selectedAmount === amount
+                    ? "bg-[#10b981] text-white border-[#10b981]"
+                    : "bg-white border text-[#081229]"
+                }`}
+              >
+                ₹{amount}
+              </button>
+            ))}
           </div>
 
           <p className="text-center text-gray-400 text-sm mb-8">
-            Amount will be auto-debited monthly. Cancel anytime from your account.
+            This is Razorpay test mode. No real money will be deducted.
           </p>
 
-          <button className="w-full bg-[#009f73] text-white rounded-2xl py-5 font-black tracking-widest text-lg shadow-lg">
-            ACTIVATE SECURE AUTOPAY →
+          <button
+            onClick={handlePayment}
+            className="w-full bg-[#009f73] text-white rounded-2xl py-5 font-black tracking-widest text-lg shadow-lg"
+          >
+            PAY WITH RAZORPAY →
           </button>
         </div>
       </section>
