@@ -45,39 +45,73 @@ export default function ProfilePage() {
   };
 
   if (loading) {
-    return <p className="pt-32 text-center">Loading profile...</p>;
+    return (
+      <main className="min-h-screen bg-[#f8fbfb]">
+        <Navbar />
+        <p className="pt-32 text-center">Loading profile...</p>
+      </main>
+    );
   }
 
   return (
     <main className="min-h-screen bg-[#f8fbfb]">
       <Navbar />
 
-      <section className="pt-36 px-6">
-        <div className="max-w-xl mx-auto bg-white rounded-3xl shadow-xl p-8">
-          <h1 className="text-3xl font-bold text-[#081229] text-center mb-8">
-            My Profile
-          </h1>
+      <section className="pt-36 px-6 pb-20">
+        <div className="max-w-2xl mx-auto bg-white rounded-3xl shadow-xl p-8">
+          <div className="flex flex-col items-center">
+            <div className="w-24 h-24 rounded-full bg-[#1a2e5a] text-white flex items-center justify-center text-4xl font-bold">
+              {userData?.fullName?.charAt(0) || "U"}
+            </div>
 
-          <div className="space-y-4 text-lg">
-            <p>
-              <b>Name:</b> {userData?.fullName}
-            </p>
+            <h1 className="text-3xl font-bold text-[#081229] mt-4 text-center">
+              {userData?.fullName || "User"}
+            </h1>
 
-            <p>
-              <b>Email:</b> {userData?.email}
-            </p>
+            <p className="text-gray-500 text-center">{userData?.email}</p>
 
-            <p>
-              <b>Role:</b> {userData?.role}
-            </p>
+            <div className="mt-4 flex gap-3 flex-wrap justify-center">
+              <span className="px-4 py-2 bg-blue-100 text-blue-700 rounded-full text-sm font-semibold capitalize">
+                {userData?.role || "Member"}
+              </span>
 
-            <p>
-              <b>Member ID:</b> {userData?.memberId}
-            </p>
+              <span className="px-4 py-2 bg-green-100 text-green-700 rounded-full text-sm font-semibold">
+                {userData?.memberId || "ID Pending"}
+              </span>
+            </div>
           </div>
 
-          {/* ADMIN DASHBOARD BUTTON */}
-          {admins.includes(userData?.email?.toLowerCase()) && (
+          <div className="mt-8 border-t pt-6 space-y-4">
+            <div className="flex justify-between gap-4">
+              <span className="font-medium text-gray-500">Name</span>
+              <span className="font-semibold text-right">
+                {userData?.fullName || "Not available"}
+              </span>
+            </div>
+
+            <div className="flex justify-between gap-4">
+              <span className="font-medium text-gray-500">Email</span>
+              <span className="font-semibold text-right break-all">
+                {userData?.email || "Not available"}
+              </span>
+            </div>
+
+            <div className="flex justify-between gap-4">
+              <span className="font-medium text-gray-500">Role</span>
+              <span className="font-semibold capitalize">
+                {userData?.role || "Not available"}
+              </span>
+            </div>
+
+            <div className="flex justify-between gap-4">
+              <span className="font-medium text-gray-500">Member ID</span>
+              <span className="font-semibold">
+                {userData?.memberId || "Not available"}
+              </span>
+            </div>
+          </div>
+
+          {admins.includes(userData?.email?.toLowerCase() || "") && (
             <a
               href="/admin"
               className="block mt-8 w-full bg-[#081229] hover:bg-[#10264d] text-white py-3 rounded-xl font-bold text-center transition"
