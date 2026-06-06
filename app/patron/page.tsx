@@ -4,7 +4,7 @@ import { useState } from "react";
 import { addDoc, collection, serverTimestamp } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 import jsPDF from "jspdf";
-
+import { auth } from "@/lib/firebase";
 declare global {
   interface Window {
     Razorpay: any;
@@ -50,28 +50,128 @@ export default function PatronPage() {
   };
 
   const downloadReceipt = (receiptData: any) => {
-    const doc = new jsPDF();
+  const doc = new jsPDF();
+const downloadReceipt = (receiptData: any) => {
+  const doc = new jsPDF();
 
-    doc.setFontSize(22);
-    doc.text("AMARISM", 20, 25);
+  // Watermark Logo
+  const logo = new Image();
+  logo.src = "/amarism-logo.jpeg";
 
-    doc.setFontSize(16);
-    doc.text("Donation Receipt", 20, 40);
+  logo.onload = () => {
 
-    doc.setFontSize(11);
-    doc.text(`Receipt No: ${receiptData.receiptNo}`, 20, 60);
-    doc.text(`Date: ${receiptData.date}`, 20, 70);
-    doc.text(`Donor Name: ${receiptData.donorName}`, 20, 85);
-    doc.text(`Mobile: ${receiptData.mobile}`, 20, 95);
-    doc.text(`Amount: Rs. ${receiptData.amount}`, 20, 110);
-    doc.text(`Payment ID: ${receiptData.paymentId}`, 20, 125);
-    doc.text(`Order ID: ${receiptData.orderId}`, 20, 135);
+    doc.addImage(
+      logo,
+      "JPEG",
+      55,
+      80,
+      100,
+      100
+    );
 
-    doc.setFontSize(12);
-    doc.text("Thank you for supporting AMARISM.", 20, 155);
+    // Border
+    doc.setDrawColor(0, 159, 115);
+    doc.setLineWidth(1.5);
+    doc.rect(10, 10, 190, 277);
+
+    // Remaining receipt code...
 
     doc.save(`${receiptData.receiptNo}.pdf`);
   };
+};
+  // Border
+  doc.setDrawColor(0, 159, 115);
+  doc.setLineWidth(1.5);
+  doc.rect(10, 10, 190, 277);
+
+  // Header
+  doc.setFillColor(0, 159, 115);
+  doc.rect(10, 10, 190, 30, "F");
+
+  doc.setTextColor(255, 255, 255);
+  doc.setFontSize(24);
+  doc.setFont("helvetica", "bold");
+  doc.text("AMARISM", 20, 28);
+
+  doc.setFontSize(11);
+  doc.text("Building Young Minds Through Smart Interaction", 20, 35);
+
+  // Reset text color
+  doc.setTextColor(0, 0, 0);
+
+  // Title
+  doc.setFontSize(18);
+  doc.setFont("helvetica", "bold");
+  doc.text("OFFICIAL DONATION RECEIPT", 52, 55);
+
+  // Receipt Badge
+  doc.setFillColor(232, 251, 243);
+  doc.roundedRect(140, 62, 50, 12, 3, 3, "F");
+
+  doc.setFontSize(10);
+  doc.text(receiptData.receiptNo, 148, 70);
+
+  // Donor Information
+  doc.setFontSize(14);
+  doc.setFont("helvetica", "bold");
+  doc.text("Donor Information", 20, 85);
+
+  doc.setLineWidth(0.3);
+  doc.line(20, 88, 190, 88);
+
+  doc.setFontSize(11);
+  doc.setFont("helvetica", "normal");
+
+  doc.text(`Name`, 20, 105);
+  doc.text(`: ${receiptData.donorName}`, 55, 105);
+
+  doc.text(`Mobile`, 20, 120);
+  doc.text(`: ${receiptData.mobile}`, 55, 120);
+
+  doc.text(`Date`, 20, 135);
+  doc.text(`: ${receiptData.date}`, 55, 135);
+
+  // Donation Details
+  doc.setFontSize(14);
+  doc.setFont("helvetica", "bold");
+  doc.text("Donation Details", 20, 160);
+
+  doc.line(20, 163, 190, 163);
+
+  doc.setFontSize(11);
+  doc.setFont("helvetica", "normal");
+
+  doc.text(`Amount`, 20, 180);
+  doc.text(`: ₹${receiptData.amount}`, 55, 180);
+
+  doc.text(`Payment ID`, 20, 195);
+  doc.text(`: ${receiptData.paymentId}`, 55, 195);
+
+  doc.text(`Order ID`, 20, 210);
+  doc.text(`: ${receiptData.orderId}`, 55, 210);
+
+  // Thank You Box
+  doc.setFillColor(232, 251, 243);
+  doc.roundedRect(20, 225, 170, 25, 3, 3, "F");
+
+  doc.setFont("helvetica", "bold");
+  doc.setFontSize(12);
+  doc.text(
+    "Thank you for supporting AMARISM and creating impact.",
+    28,
+    240
+  );
+
+  // Footer
+  doc.setFont("helvetica", "italic");
+  doc.setFontSize(10);
+  doc.text("Authorized by AMARISM Foundation", 20, 270);
+
+  doc.setFont("helvetica", "normal");
+  doc.text("www.amarism.org", 145, 270);
+
+  doc.save(`${receiptData.receiptNo}.pdf`);
+};
 
   const handlePayment = async () => {
     if (!fullName || !mobile) {
@@ -124,6 +224,8 @@ export default function PatronPage() {
         };
 
         await addDoc(collection(db, "donations"), {
+          userId: auth.currentUser?.uid,
+email: auth.currentUser?.email,
           receiptNo,
           donorName: fullName,
           mobile,
@@ -252,7 +354,6 @@ export default function PatronPage() {
           >
             PAY WITH RAZORPAY →
           </button>
-
           {receiptData && (
             <button
               onClick={() => downloadReceipt(receiptData)}

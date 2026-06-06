@@ -119,7 +119,12 @@ export default function ProfilePage() {
               Open Admin Dashboard
             </a>
           )}
-
+<a
+  href="/my-donations"
+  className="block mt-4 w-full bg-green-600 hover:bg-green-700 text-white py-3 rounded-xl font-bold text-center transition"
+>
+  My Donations
+</a>
           <button
             onClick={handleLogout}
             className="mt-4 w-full bg-red-500 hover:bg-red-600 text-white py-3 rounded-xl font-bold transition"
