@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { addDoc, collection, serverTimestamp } from "firebase/firestore";
 import { db } from "@/lib/firebase";
+import jsPDF from "jspdf";
 
 declare global {
   interface Window {
@@ -14,6 +15,7 @@ export default function PatronPage() {
   const [selectedAmount, setSelectedAmount] = useState("99");
   const [fullName, setFullName] = useState("");
   const [mobile, setMobile] = useState("");
+  const [receiptData, setReceiptData] = useState<any>(null);
 
   const amounts = [
     "99",
@@ -30,12 +32,45 @@ export default function PatronPage() {
 
   const loadRazorpayScript = () => {
     return new Promise((resolve) => {
+      const existingScript = document.querySelector(
+        'script[src="https://checkout.razorpay.com/v1/checkout.js"]'
+      );
+
+      if (existingScript) {
+        resolve(true);
+        return;
+      }
+
       const script = document.createElement("script");
       script.src = "https://checkout.razorpay.com/v1/checkout.js";
       script.onload = () => resolve(true);
       script.onerror = () => resolve(false);
       document.body.appendChild(script);
     });
+  };
+
+  const downloadReceipt = (receiptData: any) => {
+    const doc = new jsPDF();
+
+    doc.setFontSize(22);
+    doc.text("AMARISM", 20, 25);
+
+    doc.setFontSize(16);
+    doc.text("Donation Receipt", 20, 40);
+
+    doc.setFontSize(11);
+    doc.text(`Receipt No: ${receiptData.receiptNo}`, 20, 60);
+    doc.text(`Date: ${receiptData.date}`, 20, 70);
+    doc.text(`Donor Name: ${receiptData.donorName}`, 20, 85);
+    doc.text(`Mobile: ${receiptData.mobile}`, 20, 95);
+    doc.text(`Amount: Rs. ${receiptData.amount}`, 20, 110);
+    doc.text(`Payment ID: ${receiptData.paymentId}`, 20, 125);
+    doc.text(`Order ID: ${receiptData.orderId}`, 20, 135);
+
+    doc.setFontSize(12);
+    doc.text("Thank you for supporting AMARISM.", 20, 155);
+
+    doc.save(`${receiptData.receiptNo}.pdf`);
   };
 
   const handlePayment = async () => {
@@ -75,9 +110,23 @@ export default function PatronPage() {
       order_id: order.id,
 
       handler: async function (response: any) {
-        await addDoc(collection(db, "donations"), {
+        const receiptNo = `AMR-${Date.now()}`;
+        const donationDate = new Date().toLocaleDateString("en-IN");
+
+        const finalReceiptData = {
+          receiptNo,
+          date: donationDate,
           donorName: fullName,
-          mobile: mobile,
+          mobile,
+          amount: selectedAmount,
+          paymentId: response.razorpay_payment_id,
+          orderId: response.razorpay_order_id,
+        };
+
+        await addDoc(collection(db, "donations"), {
+          receiptNo,
+          donorName: fullName,
+          mobile,
           amount: Number(selectedAmount),
           paymentId: response.razorpay_payment_id,
           orderId: response.razorpay_order_id,
@@ -87,13 +136,16 @@ export default function PatronPage() {
           createdAt: serverTimestamp(),
         });
 
-        alert("Donation Successful ❤️");
+        setReceiptData(finalReceiptData);
+
+        alert("Donation Successful ❤️ Now you can download your receipt.");
       },
 
       prefill: {
         name: fullName,
         contact: mobile,
       },
+
       theme: {
         color: "#009f73",
       },
@@ -144,9 +196,11 @@ export default function PatronPage() {
             <p className="text-[#009f73] font-bold tracking-widest text-sm">
               ⭐ FOUNDATION PATRON PROTOCOL ⭐
             </p>
+
             <h2 className="text-2xl font-serif font-bold mt-3">
               🔐 Secure Test Payment
             </h2>
+
             <p className="text-[#009f73] text-xs font-bold mt-2">
               RAZORPAY TEST MODE
             </p>
@@ -198,6 +252,15 @@ export default function PatronPage() {
           >
             PAY WITH RAZORPAY →
           </button>
+
+          {receiptData && (
+            <button
+              onClick={() => downloadReceipt(receiptData)}
+              className="mt-5 w-full bg-[#081229] text-white rounded-2xl py-4 font-bold"
+            >
+              Download Receipt
+            </button>
+          )}
         </div>
       </section>
     </main>
