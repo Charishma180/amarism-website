@@ -11,6 +11,7 @@ import { Navbar } from "@/components/navbar";
 const admins = [
   "charishmapillapalem@gmail.com",
   "vadimgaduramu@gmail.com",
+  "vadimgaduramu7@gmail.com",
 ];
 
 export default function AdminPage() {
