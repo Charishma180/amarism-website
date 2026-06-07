@@ -141,8 +141,11 @@ const downloadReceipt = (receiptData: any) => {
   doc.setFontSize(11);
   doc.setFont("helvetica", "normal");
 
-  doc.text(`Amount`, 20, 180);
-  doc.text(`: ₹${receiptData.amount}`, 55, 180);
+    const amountText = `Rs. ${Number(receiptData.amount).toLocaleString("en-IN")}`;
+
+doc.text("Amount", 20, 180);
+doc.text(`: ${amountText}`, 55, 180);
+;
 
   doc.text(`Payment ID`, 20, 195);
   doc.text(`: ${receiptData.paymentId}`, 55, 195);
