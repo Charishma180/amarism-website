@@ -30,8 +30,9 @@ export default function GalleryPage() {
   const [isAdmin, setIsAdmin] = useState(false);
 
   const [title, setTitle] = useState("");
-  const [url, setUrl] = useState("");
   const [type, setType] = useState("image");
+  const [file, setFile] = useState<File | null>(null);
+  const [uploading, setUploading] = useState(false);
 
   const fetchGallery = async () => {
     const q = query(collection(db, "gallery"), orderBy("createdAt", "desc"));
@@ -49,7 +50,7 @@ export default function GalleryPage() {
     fetchGallery();
 
     const unsubscribe = onAuthStateChanged(auth, (user) => {
-      setIsAdmin(admins.includes(user?.email || ""));
+      setIsAdmin(admins.includes(user?.email?.toLowerCase() || ""));
     });
 
     return () => unsubscribe();
@@ -61,26 +62,67 @@ export default function GalleryPage() {
       return;
     }
 
-    if (!title || !url) {
-      alert("Please enter title and URL");
+    if (!title || !file) {
+      alert("Please enter title and choose a file");
       return;
     }
 
-    await addDoc(collection(db, "gallery"), {
-      title,
-      url,
-      type,
-      createdAt: serverTimestamp(),
-    });
+    const cloudName = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME;
+    const uploadPreset = process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET;
 
-    alert("Gallery item added!");
+    if (!cloudName || !uploadPreset) {
+      alert("Cloudinary environment variables missing");
+      return;
+    }
 
-    setTitle("");
-    setUrl("");
-    setType("image");
-    setShowForm(false);
+    try {
+      setUploading(true);
 
-    fetchGallery();
+      const formData = new FormData();
+      formData.append("file", file);
+      formData.append("upload_preset", uploadPreset);
+      formData.append("folder", "amarism-gallery");
+
+      const resourceType = type === "video" ? "video" : "image";
+
+      const response = await fetch(
+        `https://api.cloudinary.com/v1_1/${cloudName}/${resourceType}/upload`,
+        {
+          method: "POST",
+          body: formData,
+        }
+      );
+
+      const data = await response.json();
+
+      if (!response.ok || !data.secure_url) {
+        console.error("Cloudinary upload error:", data);
+        alert(data?.error?.message || "Cloudinary upload failed");
+        return;
+      }
+
+      await addDoc(collection(db, "gallery"), {
+        title,
+        url: data.secure_url,
+        publicId: data.public_id,
+        type,
+        createdAt: serverTimestamp(),
+      });
+
+      alert("Gallery item uploaded!");
+
+      setTitle("");
+      setFile(null);
+      setType("image");
+      setShowForm(false);
+
+      fetchGallery();
+    } catch (error) {
+      console.error(error);
+      alert("Upload failed. Please try again.");
+    } finally {
+      setUploading(false);
+    }
   };
 
   const handleDelete = async (id: string) => {
@@ -120,9 +162,10 @@ export default function GalleryPage() {
             {isAdmin && (
               <button
                 onClick={() => setShowForm(!showForm)}
-                className="mx-auto mb-10 w-14 h-14 rounded-full bg-[#082f73] text-white flex items-center justify-center shadow-lg hover:scale-105 transition"
+                className="mx-auto mb-10 px-6 py-3 rounded-full bg-[#082f73] text-white flex items-center justify-center gap-2 shadow-lg hover:scale-105 transition"
               >
-                <Plus className="w-7 h-7" />
+                <Plus className="w-5 h-5" />
+                Upload Photo / Video
               </button>
             )}
           </div>
@@ -130,7 +173,7 @@ export default function GalleryPage() {
           {isAdmin && showForm && (
             <div className="max-w-xl mx-auto bg-[#f8fbfb] border rounded-3xl p-6 mb-12">
               <h2 className="text-2xl font-bold text-[#081229] mb-5">
-                Add Gallery Item
+                Upload Gallery Item
               </h2>
 
               <div className="space-y-4">
@@ -141,27 +184,31 @@ export default function GalleryPage() {
                   className="w-full border rounded-xl px-4 py-3 outline-none"
                 />
 
-                <input
-                  value={url}
-                  onChange={(e) => setUrl(e.target.value)}
-                  placeholder="Image or Video URL"
-                  className="w-full border rounded-xl px-4 py-3 outline-none"
-                />
-
                 <select
                   value={type}
-                  onChange={(e) => setType(e.target.value)}
+                  onChange={(e) => {
+                    setType(e.target.value);
+                    setFile(null);
+                  }}
                   className="w-full border rounded-xl px-4 py-3 outline-none"
                 >
                   <option value="image">Image</option>
                   <option value="video">Video</option>
                 </select>
 
+                <input
+                  type="file"
+                  accept={type === "image" ? "image/*" : "video/*"}
+                  onChange={(e) => setFile(e.target.files?.[0] || null)}
+                  className="w-full border rounded-xl px-4 py-3 bg-white"
+                />
+
                 <button
                   onClick={handleAddGallery}
-                  className="w-full bg-[#0d9488] text-white py-3 rounded-xl font-bold"
+                  disabled={uploading}
+                  className="w-full bg-[#0d9488] text-white py-3 rounded-xl font-bold disabled:opacity-60"
                 >
-                  Save to Gallery
+                  {uploading ? "Uploading..." : "Upload to Gallery"}
                 </button>
               </div>
             </div>
@@ -191,7 +238,7 @@ export default function GalleryPage() {
                     <video
                       src={item.url}
                       controls
-                      className="w-full h-64 object-cover"
+                      className="w-full h-64 object-cover bg-black"
                     />
                   ) : (
                     <img
