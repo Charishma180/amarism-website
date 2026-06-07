@@ -1,5 +1,6 @@
 "use client";
-
+import { addDoc, collection, serverTimestamp } from "firebase/firestore";
+import { db } from "@/lib/firebase";
 import { useState } from "react";
 import { MapPin, Mail, Phone } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -11,8 +12,22 @@ export function ContactSection() {
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
 
-  const handleSendMessage = () => {
-    const text = `
+ const handleSendMessage = async () => {
+  if (!firstName || !lastName || !email || !message) {
+    alert("Please fill all fields");
+    return;
+  }
+
+  await addDoc(collection(db, "contacts"), {
+    firstName,
+    lastName,
+    email,
+    message,
+    status: "new",
+    createdAt: serverTimestamp(),
+  });
+
+  const text = `
 Name: ${firstName} ${lastName}
 Email: ${email}
 
@@ -20,13 +35,21 @@ Message:
 ${message}
   `;
 
-    const whatsappNumber = "7075428773";
-    const url = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(
-      text
-    )}`;
+  const whatsappNumber = "7075428773";
 
-    window.open(url, "_blank");
-  };
+  const url = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(
+    text
+  )}`;
+
+  window.open(url, "_blank");
+
+  setFirstName("");
+  setLastName("");
+  setEmail("");
+  setMessage("");
+
+  alert("Message submitted successfully!");
+};
 
   return (
     <section
