@@ -384,125 +384,94 @@ export function AboutSection() {
             
 
             {/* Leadership Cards */}
-            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8 mb-12">
-              <div className="bg-white rounded-[30px] p-8 shadow-md hover:-translate-y-1 transition-all duration-300">
-  <div className="w-16 h-16 rounded-2xl bg-[#eef6ff] flex items-center justify-center text-2xl md:text-3xl mb-6">
-    📜
+<div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8 mb-12">
+  <div className="bg-white rounded-[30px] p-8 shadow-md hover:-translate-y-1 transition-all duration-300">
+    <div className="w-16 h-16 rounded-2xl bg-[#eef6ff] flex items-center justify-center text-2xl md:text-3xl mb-6">
+      📜
+    </div>
+
+    <h3 className="text-2xl font-bold text-[#081229] mb-3">
+      V. Anil Kumar
+    </h3>
+
+    <p className="text-[#12b886] tracking-[3px] font-semibold text-sm">
+      GENERAL SECRETARY
+    </p>
   </div>
 
-  <h3 className="text-2xl font-bold text-[#081229] mb-3">
-    V. Anil Kumar
-  </h3>
+  <div className="bg-white rounded-[30px] p-8 shadow-md hover:-translate-y-1 transition-all duration-300">
+    <div className="w-16 h-16 rounded-2xl bg-[#eef6ff] flex items-center justify-center text-3xl mb-6">
+      🏛️
+    </div>
 
-  <p className="text-[#12b886] tracking-[3px] font-semibold text-sm">
-    GENERAL SECRETARY
-  </p>
+    <h3 className="text-2xl font-bold text-[#081229] mb-3">
+      Pillapalem Charishma
+    </h3>
+
+    <p className="text-[#12b886] tracking-[3px] font-semibold text-sm">
+      VICE PRESIDENT
+    </p>
+  </div>
+
+  <div className="bg-white rounded-[30px] p-8 shadow-md hover:-translate-y-1 transition-all duration-300">
+    <div className="w-16 h-16 rounded-2xl bg-[#eef6ff] flex items-center justify-center text-2xl md:text-3xl mb-6">
+      🏦
+    </div>
+
+    <h3 className="text-2xl font-bold text-[#081229] mb-3">
+      V. Tharun
+    </h3>
+
+    <p className="text-[#12b886] tracking-[3px] font-semibold text-sm">
+      TREASURER
+    </p>
+  </div>
+
+  <div className="bg-white rounded-[30px] p-8 shadow-md hover:-translate-y-1 transition-all duration-300">
+    <div className="w-16 h-16 rounded-2xl bg-[#eef6ff] flex items-center justify-center text-2xl md:text-3xl mb-6">
+      🤝
+    </div>
+
+    <h3 className="text-2xl font-bold text-[#081229] mb-3">
+      T. Jeevana Sri
+    </h3>
+
+    <p className="text-[#12b886] tracking-[3px] font-semibold text-sm">
+      ADDITIONAL GENERAL SECRETARY
+    </p>
+  </div>
 </div>
 
-              <div className="bg-white rounded-[30px] p-8 shadow-md hover:-translate-y-1 transition-all duration-300">
-                <div className="w-16 h-16 rounded-2xl bg-[#eef6ff] flex items-center justify-center text-3xl mb-6">
-                  🏛️
-                </div>
+{/* Executive Members */}
+<div className="grid md:grid-cols-2 gap-6">
+  <div className="bg-white rounded-2xl p-6 shadow-sm flex items-center gap-5">
+    <div className="text-2xl md:text-3xl">👤</div>
 
-                <h3 className="text-2xl font-bold text-[#081229] mb-3">
-                  Pillapalem Charishma
-                </h3>
+    <div>
+      <h4 className="text-xl font-bold text-[#081229]">
+        V. Charan Kumar
+      </h4>
 
-                <p className="text-[#12b886] tracking-[3px] font-semibold text-sm">
-                  VICE PRESIDENT
-                </p>
-              </div>
+      <p className="text-gray-500 text-sm tracking-wide">
+        EXECUTIVE MEMBER
+      </p>
+    </div>
+  </div>
 
-              <div className="bg-white rounded-[30px] p-8 shadow-md hover:-translate-y-1 transition-all duration-300">
-                <div className="w-16 h-16 rounded-2xl bg-[#eef6ff] flex items-center justify-center text-2xl md:text-3xl mb-6">
-                  🏦
-                </div>
+  <div className="bg-white rounded-2xl p-6 shadow-sm flex items-center gap-5">
+    <div className="text-2xl md:text-3xl">👤</div>
 
-                <h3 className="text-2xl font-bold text-[#081229] mb-3">
-                  V. Tharun
-                </h3>
+    <div>
+      <h4 className="text-xl font-bold text-[#081229]">
+        M. Pranay
+      </h4>
 
-                <p className="text-[#12b886] tracking-[3px] font-semibold text-sm">
-                  TREASURER
-                </p>
-              </div>
-
-              <div className="bg-white rounded-[30px] p-8 shadow-md hover:-translate-y-1 transition-all duration-300">
-                <div className="w-16 h-16 rounded-2xl bg-[#eef6ff] flex items-center justify-center text-2xl md:text-3xl mb-6">
-                  🤝
-                </div>
-
-                <h3 className="text-2xl font-bold text-[#081229] mb-3">
-                  V. Charan Kumar
-                </h3>
-
-                <p className="text-[#12b886] tracking-[3px] font-semibold text-sm">
-                  ADDL. GENERAL SECRETARY
-                </p>
-              </div>
-
-            </div>
-
-            {/* Executive Members */}
-            <div className="grid md:grid-cols-2 gap-6">
-
-              <div className="bg-white rounded-2xl p-6 shadow-sm flex items-center gap-5">
-                <div className="text-2xl md:text-3xl">👤</div>
-
-                <div>
-                  <h4 className="text-xl font-bold text-[#081229]">
-                    T. Jeevana Sri
-                  </h4>
-
-                  <p className="text-gray-500 text-sm tracking-wide">
-                    EXECUTIVE MEMBER
-                  </p>
-                </div>
-              </div>
-
-              <div className="bg-white rounded-2xl p-6 shadow-sm flex items-center gap-5">
-                <div className="text-2xl md:text-3xl">👤</div>
-
-                <div>
-                  <h4 className="text-xl font-bold text-[#081229]">
-                    V. Hari Krishna
-                  </h4>
-
-                  <p className="text-gray-500 text-sm tracking-wide">
-                    EXECUTIVE MEMBER
-                  </p>
-                </div>
-              </div>
-
-              <div className="bg-white rounded-2xl p-6 shadow-sm flex items-center gap-5">
-                <div className="text-3xl">👤</div>
-
-                <div>
-                  <h4 className="text-xl font-bold text-[#081229]">
-                    Duggu Tejaswini
-                  </h4>
-
-                  <p className="text-gray-500 text-sm tracking-wide">
-                    EXECUTIVE MEMBER
-                  </p>
-                </div>
-              </div>
-
-              <div className="bg-white rounded-2xl p-6 shadow-sm flex items-center gap-5">
-                <div className="text-2xl md:text-3xl">👤</div>
-
-                <div>
-                  <h4 className="text-base md:text-xl font-bold text-[#081229]">
-                    V. Karthik
-                  </h4>
-
-                  <p className="text-gray-500 text-sm tracking-wide">
-                    EXECUTIVE MEMBER
-                  </p>
-                </div>
-              </div>
-
-            </div>
+      <p className="text-gray-500 text-sm tracking-wide">
+        EXECUTIVE MEMBER
+      </p>
+    </div>
+  </div>
+</div>
 
           </div>
         </section>

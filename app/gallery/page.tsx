@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Plus } from "lucide-react";
+import { Plus, X } from "lucide-react";
 import {
   collection,
   addDoc,
@@ -33,6 +33,8 @@ export default function GalleryPage() {
   const [type, setType] = useState("image");
   const [file, setFile] = useState<File | null>(null);
   const [uploading, setUploading] = useState(false);
+
+  const [selectedItem, setSelectedItem] = useState<any | null>(null);
 
   const fetchGallery = async () => {
     const q = query(collection(db, "gallery"), orderBy("createdAt", "desc"));
@@ -232,21 +234,25 @@ export default function GalleryPage() {
               {items.map((item) => (
                 <div
                   key={item.id}
-                  className="bg-white border rounded-3xl overflow-hidden shadow-sm"
+                  className="bg-white border rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition"
                 >
-                  {item.type === "video" ? (
-                    <video
-                      src={item.url}
-                      controls
-                      className="w-full h-64 object-cover bg-black"
-                    />
-                  ) : (
-                    <img
-                      src={item.url}
-                      alt={item.title}
-                      className="w-full h-64 object-cover"
-                    />
-                  )}
+                  <div
+                    onClick={() => setSelectedItem(item)}
+                    className="cursor-pointer"
+                  >
+                    {item.type === "video" ? (
+                      <video
+                        src={item.url}
+                        className="w-full h-64 object-cover bg-black"
+                      />
+                    ) : (
+                      <img
+                        src={item.url}
+                        alt={item.title}
+                        className="w-full h-64 object-cover hover:scale-105 transition duration-500"
+                      />
+                    )}
+                  </div>
 
                   <div className="p-5">
                     <h3 className="text-xl font-bold text-[#081229]">
@@ -268,6 +274,38 @@ export default function GalleryPage() {
           )}
         </div>
       </section>
+
+      {selectedItem && (
+        <div className="fixed inset-0 z-[9999] bg-black/90 flex items-center justify-center px-4">
+          <button
+            onClick={() => setSelectedItem(null)}
+            className="absolute top-6 right-6 w-12 h-12 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition"
+          >
+            <X className="w-7 h-7" />
+          </button>
+
+          <div className="max-w-6xl w-full">
+            {selectedItem.type === "video" ? (
+              <video
+                src={selectedItem.url}
+                controls
+                autoPlay
+                className="w-full max-h-[80vh] object-contain rounded-2xl bg-black"
+              />
+            ) : (
+              <img
+                src={selectedItem.url}
+                alt={selectedItem.title}
+                className="w-full max-h-[80vh] object-contain rounded-2xl"
+              />
+            )}
+
+            <h2 className="text-white text-center text-2xl font-bold mt-5">
+              {selectedItem.title}
+            </h2>
+          </div>
+        </div>
+      )}
 
       <AmarismFooter />
       <SocialBar />
