@@ -11,8 +11,23 @@ export default function MyDonationsPage() {
   const [donations, setDonations] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
+  const getReceiptDate = (receiptData: any) => {
+    if (receiptData?.createdAt?.seconds) {
+      return new Date(receiptData.createdAt.seconds * 1000).toLocaleDateString(
+        "en-IN"
+      );
+    }
+
+    if (receiptData?.donationDate) {
+      return new Date(receiptData.donationDate).toLocaleDateString("en-IN");
+    }
+
+    return "N/A";
+  };
+
   const downloadReceipt = (receiptData: any) => {
     const doc = new jsPDF();
+    const receiptDate = getReceiptDate(receiptData);
 
     doc.setDrawColor(0, 159, 115);
     doc.setLineWidth(1.5);
@@ -30,7 +45,6 @@ export default function MyDonationsPage() {
     doc.text("Building Young Minds Through Smart Interaction", 20, 35);
 
     doc.setTextColor(0, 0, 0);
-
     doc.setFontSize(18);
     doc.setFont("helvetica", "bold");
     doc.text("OFFICIAL DONATION RECEIPT", 52, 55);
@@ -59,7 +73,7 @@ export default function MyDonationsPage() {
     doc.text(`: ${receiptData.mobile || "N/A"}`, 55, 120);
 
     doc.text("Date", 20, 135);
-    doc.text(`: ${new Date().toLocaleDateString("en-IN")}`, 55, 135);
+    doc.text(`: ${receiptDate}`, 55, 135);
 
     doc.setFontSize(14);
     doc.setFont("helvetica", "bold");
@@ -67,7 +81,7 @@ export default function MyDonationsPage() {
 
     doc.line(20, 163, 190, 163);
 
-    const amountText = `Rs. ${Number(receiptData.amount).toLocaleString(
+    const amountText = `Rs. ${Number(receiptData.amount || 0).toLocaleString(
       "en-IN"
     )}`;
 
@@ -142,13 +156,20 @@ export default function MyDonationsPage() {
                   <p>
                     <b>Receipt No:</b> {donation.receiptNo || "N/A"}
                   </p>
+
+                  <p>
+                    <b>Date:</b> {getReceiptDate(donation)}
+                  </p>
+
                   <p>
                     <b>Amount:</b> Rs.{" "}
-                    {Number(donation.amount).toLocaleString("en-IN")}
+                    {Number(donation.amount || 0).toLocaleString("en-IN")}
                   </p>
+
                   <p>
                     <b>Payment ID:</b> {donation.paymentId}
                   </p>
+
                   <p>
                     <b>Status:</b> {donation.status}
                   </p>
