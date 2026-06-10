@@ -10,13 +10,25 @@ export const metadata: Metadata = {
   description:
     "AMARISM is a non-profit organization and youth-driven social movement built on the belief that independence without equality is incomplete, and freedom without dignity is unfinished.",
   generator: "v0.app",
-
   icons: {
-    icon: "/favicon.png",
-    shortcut: "/favicon.png",
-    apple: "/favicon.png",
+    icon: [
+      {
+        url: "/icon-light-32x32.png",
+        media: "(prefers-color-scheme: light)",
+      },
+      {
+        url: "/icon-dark-32x32.png",
+        media: "(prefers-color-scheme: dark)",
+      },
+      {
+        url: "/icon.svg",
+        type: "image/svg+xml",
+      },
+    ],
+    apple: "/apple-icon.png",
   },
 }
+
 export default function RootLayout({
   children,
 }: Readonly<{
