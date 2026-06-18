@@ -228,7 +228,8 @@ doc.text(`: ${amountText}`, 55, 180);
 
         await addDoc(collection(db, "donations"), {
           userId: auth.currentUser?.uid,
-email: auth.currentUser?.email,
+email: auth.currentUser?.email || "",
+userId: auth.currentUser?.uid || "",
           receiptNo,
           donorName: fullName,
           mobile,

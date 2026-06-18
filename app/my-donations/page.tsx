@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { collection, getDocs } from "firebase/firestore";
+import { collection, getDocs, query, where } from "firebase/firestore";
 import { onAuthStateChanged } from "firebase/auth";
 import { db, auth } from "@/lib/firebase";
 import { Navbar } from "@/components/navbar";
@@ -115,8 +115,21 @@ export default function MyDonationsPage() {
   };
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, async () => {
-      const snapshot = await getDocs(collection(db, "donations"));
+    const unsubscribe = onAuthStateChanged(auth, async (user) => {
+      setLoading(true);
+
+      if (!user?.email) {
+        setDonations([]);
+        setLoading(false);
+        return;
+      }
+
+      const donationsQuery = query(
+        collection(db, "donations"),
+        where("email", "==", user.email)
+      );
+
+      const snapshot = await getDocs(donationsQuery);
 
       const data = snapshot.docs.map((doc) => ({
         id: doc.id,
@@ -144,7 +157,7 @@ export default function MyDonationsPage() {
             <p>Loading...</p>
           ) : donations.length === 0 ? (
             <div className="bg-white rounded-2xl p-8 shadow">
-              <p>No donations found.</p>
+              <p>No donations found for this account.</p>
             </div>
           ) : (
             <div className="space-y-4">
