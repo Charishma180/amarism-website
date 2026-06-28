@@ -19,7 +19,7 @@ export default function PatronPage() {
   const amounts = ["99", "199", "299", "499", "999", "1499", "1999", "2499", "2999", "4999"];
 
   const handleUpiPayment = () => {
-    const upiId = "vmbunny@ibl";
+    const upiId = "9676516710@axl";
     const payeeName = "AMARISM";
 
     const upiUrl = `upi://pay?pa=${upiId}&pn=${encodeURIComponent(
