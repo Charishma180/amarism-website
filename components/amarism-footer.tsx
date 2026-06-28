@@ -11,7 +11,8 @@ export function AmarismFooter() {
   src="/amarism-logo.jpeg"
   alt="AMARISM Logo"
   className="w-10 h-10 object-contain"
-/>
+/>git status
+
           <span className="text-xl font-bold">AMARISM</span>
         </div>
 
