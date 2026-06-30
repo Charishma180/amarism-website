@@ -30,7 +30,7 @@ export default function PatronPage() {
   ];
 
  const getUpiLink = (app: "phonepe" | "gpay" | "paytm" | "generic") => {
-  const upiId = "9676516710@axl";
+  const upiId = "vmbunny@ibl";
   const payeeName = "P CHARISHAMA";
   const note = "AMARISM Donation";
 
