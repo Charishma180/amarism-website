@@ -16,15 +16,30 @@ export default function PatronPage() {
   const [receiptData, setReceiptData] = useState<any>(null);
   const [showConfirmForm, setShowConfirmForm] = useState(false);
 
-  const amounts = ["99", "199", "299", "499", "999", "1499", "1999", "2499", "2999", "4999"];
+  const amounts = [
+    "99",
+    "199",
+    "299",
+    "499",
+    "999",
+    "1499",
+    "1999",
+    "2499",
+    "2999",
+    "4999",
+  ];
 
   const handleUpiPayment = () => {
     const upiId = "9676516710@axl";
     const payeeName = "AMARISM";
+    const note = "AMARISM Donation";
 
-    const upiUrl = `upi://pay?pa=${upiId}&pn=${encodeURIComponent(
-      payeeName
-    )}&am=${selectedAmount}&cu=INR&tn=${encodeURIComponent("AMARISM Donation")}`;
+    const upiUrl =
+      `upi://pay?pa=${upiId}` +
+      `&pn=${encodeURIComponent(payeeName)}` +
+      `&am=${selectedAmount}` +
+      `&cu=INR` +
+      `&tn=${encodeURIComponent(note)}`;
 
     setShowConfirmForm(true);
 
@@ -32,9 +47,27 @@ export default function PatronPage() {
       document.getElementById("donation-confirm-form")?.scrollIntoView({
         behavior: "smooth",
       });
-    }, 500);
+    }, 800);
+
+    const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+
+    if (!isMobile) {
+      alert("Please open this page on mobile to pay via UPI app.");
+      return;
+    }
 
     window.location.href = upiUrl;
+
+    setTimeout(() => {
+      alert(
+        "After completing payment, please come back and enter your UTR / Transaction ID."
+      );
+    }, 3000);
+  };
+
+  const copyUpiId = async () => {
+    await navigator.clipboard.writeText("9676516710@axl");
+    alert("UPI ID copied!");
   };
 
   const downloadReceipt = (data: any) => {
@@ -109,8 +142,8 @@ export default function PatronPage() {
       return;
     }
 
-    if (!fullName || !mobile || !selectedAmount || !utrNumber) {
-      alert("Please fill name, mobile number, amount and UTR number.");
+    if (!fullName || !mobile || !utrNumber) {
+      alert("Please fill name, mobile number and UTR number.");
       return;
     }
 
@@ -209,7 +242,7 @@ export default function PatronPage() {
 
           <div className="grid md:grid-cols-2 gap-10 items-start">
             <div className="bg-[#081229] rounded-3xl p-6 text-center text-white">
-              <h3 className="text-2xl font-bold mb-3">Scan QR to Pay</h3>
+              <h3 className="text-2xl font-bold mb-3">Pay via UPI</h3>
 
               <div className="bg-white rounded-2xl p-4 inline-block">
                 <Image
@@ -222,7 +255,11 @@ export default function PatronPage() {
               </div>
 
               <p className="mt-5 text-sm text-gray-200">
-                Scan using PhonePe, Google Pay, Paytm, BHIM or any UPI app.
+                Pay directly using PhonePe, Google Pay, Paytm, BHIM or any UPI app.
+              </p>
+
+              <p className="mt-3 text-sm text-gray-300">
+                UPI ID: <span className="font-bold">9676516710@axl</span>
               </p>
 
               <button
@@ -231,6 +268,17 @@ export default function PatronPage() {
               >
                 Pay ₹{selectedAmount} via UPI App
               </button>
+
+              <button
+                onClick={copyUpiId}
+                className="mt-3 w-full bg-white/10 hover:bg-white/20 text-white rounded-2xl py-3 font-bold"
+              >
+                Copy UPI ID
+              </button>
+
+              <p className="mt-4 text-xs text-gray-300">
+                After payment, come back and submit your UTR / Transaction ID.
+              </p>
             </div>
 
             <div id="donation-confirm-form">
@@ -238,11 +286,16 @@ export default function PatronPage() {
                 Confirm Your Donation
               </h3>
 
-              {!showConfirmForm && (
-                <p className="text-sm text-gray-500 mb-5">
-                  After completing payment, fill this form with your UTR number
-                  to generate your donation record.
-                </p>
+              <p className="text-sm text-gray-500 mb-5">
+                After completing payment, fill this form with your UTR number
+                to generate your donation record.
+              </p>
+
+              {showConfirmForm && (
+                <div className="mb-5 rounded-2xl bg-[#e8fbf3] border border-[#10b981]/30 p-4 text-sm text-[#065f46] font-semibold">
+                  Payment app opened. After completing payment, return here and
+                  submit your UTR / Transaction ID.
+                </div>
               )}
 
               <div className="space-y-5">
@@ -258,6 +311,12 @@ export default function PatronPage() {
                   value={mobile}
                   onChange={(e) => setMobile(e.target.value)}
                   className="w-full bg-gray-50 rounded-2xl px-6 py-5 outline-none border"
+                />
+
+                <input
+                  value={`Selected Amount: ₹${selectedAmount}`}
+                  readOnly
+                  className="w-full bg-gray-100 rounded-2xl px-6 py-5 outline-none border font-bold text-[#081229]"
                 />
 
                 <input
