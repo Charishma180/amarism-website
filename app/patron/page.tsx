@@ -29,42 +29,49 @@ export default function PatronPage() {
     "4999",
   ];
 
-  const handleUpiPayment = () => {
-    const upiId = "9676516710@axl";
-    const payeeName = "AMARISM";
-    const note = "AMARISM Donation";
+ const getUpiLink = (app: "phonepe" | "gpay" | "paytm" | "generic") => {
+  const upiId = "9676516710@axl";
+  const payeeName = "P CHARISHAMA";
+  const note = "AMARISM Donation";
 
-    const upiUrl =
-      `upi://pay?pa=${upiId}` +
-      `&pn=${encodeURIComponent(payeeName)}` +
-      `&am=${selectedAmount}` +
-      `&cu=INR` +
-      `&tn=${encodeURIComponent(note)}`;
+  const params =
+    `pa=${upiId}` +
+    `&pn=${encodeURIComponent(payeeName)}` +
+    `&am=${selectedAmount}` +
+    `&cu=INR` +
+    `&tn=${encodeURIComponent(note)}`;
 
-    setShowConfirmForm(true);
+  if (app === "phonepe") return `phonepe://pay?${params}`;
+  if (app === "gpay") return `tez://upi/pay?${params}`;
+  if (app === "paytm") return `paytmmp://pay?${params}`;
 
-    setTimeout(() => {
-      document.getElementById("donation-confirm-form")?.scrollIntoView({
-        behavior: "smooth",
-      });
-    }, 800);
+  return `upi://pay?${params}`;
+};
 
-    const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+const handleUpiPayment = (app: "phonepe" | "gpay" | "paytm" | "generic") => {
+  setShowConfirmForm(true);
 
-    if (!isMobile) {
-      alert("Please open this page on mobile to pay via UPI app.");
-      return;
-    }
+  setTimeout(() => {
+    document.getElementById("donation-confirm-form")?.scrollIntoView({
+      behavior: "smooth",
+    });
+  }, 800);
 
-    window.location.href = upiUrl;
+  const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
 
-    setTimeout(() => {
-      alert(
-        "After completing payment, please come back and enter your UTR / Transaction ID."
-      );
-    }, 3000);
-  };
+  if (!isMobile) {
+    alert("Please open this page on mobile to pay via UPI app.");
+    return;
+  }
 
+  window.location.href = getUpiLink(app);
+
+  setTimeout(() => {
+    alert(
+      "After completing payment, please come back and enter your UTR / Transaction ID."
+    );
+  }, 3000);
+};
   const copyUpiId = async () => {
     await navigator.clipboard.writeText("9676516710@axl");
     alert("UPI ID copied!");
@@ -262,13 +269,35 @@ export default function PatronPage() {
                 UPI ID: <span className="font-bold">9676516710@axl</span>
               </p>
 
-              <button
-                onClick={handleUpiPayment}
-                className="mt-6 w-full bg-[#009f73] text-white rounded-2xl py-4 font-bold"
-              >
-                Pay ₹{selectedAmount} via UPI App
-              </button>
+             <div className="mt-6 grid grid-cols-2 gap-3">
+  <button
+    onClick={() => handleUpiPayment("phonepe")}
+    className="bg-[#009f73] text-white rounded-2xl py-4 font-bold"
+  >
+    PhonePe
+  </button>
 
+  <button
+    onClick={() => handleUpiPayment("gpay")}
+    className="bg-[#009f73] text-white rounded-2xl py-4 font-bold"
+  >
+    Google Pay
+  </button>
+
+  <button
+    onClick={() => handleUpiPayment("paytm")}
+    className="bg-[#009f73] text-white rounded-2xl py-4 font-bold"
+  >
+    Paytm
+  </button>
+
+  <button
+    onClick={() => handleUpiPayment("generic")}
+    className="bg-[#009f73] text-white rounded-2xl py-4 font-bold"
+  >
+    Any UPI
+  </button>
+</div>
               <button
                 onClick={copyUpiId}
                 className="mt-3 w-full bg-white/10 hover:bg-white/20 text-white rounded-2xl py-3 font-bold"
