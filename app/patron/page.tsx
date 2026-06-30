@@ -73,7 +73,7 @@ const handleUpiPayment = (app: "phonepe" | "gpay" | "paytm" | "generic") => {
   }, 3000);
 };
   const copyUpiId = async () => {
-    await navigator.clipboard.writeText("9676516710@axl");
+    await navigator.clipboard.writeText("vmbunny@ibl");
     alert("UPI ID copied!");
   };
 
@@ -266,7 +266,7 @@ const handleUpiPayment = (app: "phonepe" | "gpay" | "paytm" | "generic") => {
               </p>
 
               <p className="mt-3 text-sm text-gray-300">
-                UPI ID: <span className="font-bold">9676516710@axl</span>
+                UPI ID: <span className="font-bold">vmbunny@ibl</span>
               </p>
 
              <div className="mt-6 grid grid-cols-2 gap-3">
