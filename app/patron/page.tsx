@@ -1,20 +1,36 @@
 "use client";
 
 import { useState } from "react";
-import Image from "next/image";
 import { addDoc, collection, serverTimestamp } from "firebase/firestore";
 import { auth, db } from "@/lib/firebase";
 import jsPDF from "jspdf";
+
+declare global {
+  interface Window {
+    Razorpay: new (options: Record<string, unknown>) => { open: () => void };
+  }
+}
 
 export default function PatronPage() {
   const [selectedAmount, setSelectedAmount] = useState("99");
   const [fullName, setFullName] = useState("");
   const [mobile, setMobile] = useState("");
-  const [utrNumber, setUtrNumber] = useState("");
-  const [screenshotUrl, setScreenshotUrl] = useState("");
   const [submitting, setSubmitting] = useState(false);
   const [receiptData, setReceiptData] = useState<any>(null);
-  const [showConfirmForm, setShowConfirmForm] = useState(false);
+
+  const loadRazorpayCheckout = () =>
+    new Promise<boolean>((resolve) => {
+      if (window.Razorpay) {
+        resolve(true);
+        return;
+      }
+
+      const script = document.createElement("script");
+      script.src = "https://checkout.razorpay.com/v1/checkout.js";
+      script.onload = () => resolve(true);
+      script.onerror = () => resolve(false);
+      document.body.appendChild(script);
+    });
 
   const amounts = [
     "99",
@@ -28,54 +44,6 @@ export default function PatronPage() {
     "2999",
     "4999",
   ];
-
- const getUpiLink = (app: "phonepe" | "gpay" | "paytm" | "generic") => {
-  const upiId = "vmbunny@ibl";
-  const payeeName = "P CHARISHAMA";
-  const note = "AMARISM Donation";
-
-  const params =
-    `pa=${upiId}` +
-    `&pn=${encodeURIComponent(payeeName)}` +
-    `&am=${selectedAmount}` +
-    `&cu=INR` +
-    `&tn=${encodeURIComponent(note)}`;
-
-  if (app === "phonepe") return `phonepe://pay?${params}`;
-  if (app === "gpay") return `tez://upi/pay?${params}`;
-  if (app === "paytm") return `paytmmp://pay?${params}`;
-
-  return `upi://pay?${params}`;
-};
-
-const handleUpiPayment = (app: "phonepe" | "gpay" | "paytm" | "generic") => {
-  setShowConfirmForm(true);
-
-  setTimeout(() => {
-    document.getElementById("donation-confirm-form")?.scrollIntoView({
-      behavior: "smooth",
-    });
-  }, 800);
-
-  const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
-
-  if (!isMobile) {
-    alert("Please open this page on mobile to pay via UPI app.");
-    return;
-  }
-
-  window.location.href = getUpiLink(app);
-
-  setTimeout(() => {
-    alert(
-      "After completing payment, please come back and enter your UTR / Transaction ID."
-    );
-  }, 3000);
-};
-  const copyUpiId = async () => {
-    await navigator.clipboard.writeText("vmbunny@ibl");
-    alert("UPI ID copied!");
-  };
 
   const downloadReceipt = (data: any) => {
     const doc = new jsPDF();
@@ -143,59 +111,113 @@ const handleUpiPayment = (app: "phonepe" | "gpay" | "paytm" | "generic") => {
     doc.save(`${data.receiptNo}.pdf`);
   };
 
-  const handleSubmitDonation = async () => {
+  const handleRazorpayPayment = async () => {
     if (!auth.currentUser) {
-      alert("Please login before submitting donation details.");
+      alert("Please login before making a donation.");
       return;
     }
 
-    if (!fullName || !mobile || !utrNumber) {
-      alert("Please fill name, mobile number and UTR number.");
+    if (!fullName || !mobile) {
+      alert("Please fill your name and mobile number.");
       return;
     }
 
     try {
       setSubmitting(true);
 
+      const orderResponse = await fetch("/api/create-order", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ amount: Number(selectedAmount) }),
+      });
+      const order = await orderResponse.json();
+
+      if (!orderResponse.ok) {
+        throw new Error(order.error || "Unable to start payment");
+      }
+
+      const checkoutLoaded = await loadRazorpayCheckout();
+      if (!checkoutLoaded) {
+        throw new Error("Unable to load the payment window. Please try again.");
+      }
+
+      const key = process.env.NEXT_PUBLIC_RAZORPAY_KEY;
+      if (!key) {
+        throw new Error("Payment gateway is not configured");
+      }
+
       const receiptNo = `AMR-${Date.now()}`;
       const donationDate = new Date().toLocaleDateString("en-IN");
 
-      const finalReceiptData = {
-        receiptNo,
-        date: donationDate,
-        donorName: fullName,
-        mobile,
-        amount: Number(selectedAmount),
-        utrNumber,
-        status: "Pending Verification",
-      };
+      const razorpay = new window.Razorpay({
+        key,
+        amount: order.amount,
+        currency: order.currency,
+        name: "AMARISM",
+        description: "Patron Donation",
+        image: "/amarism-logo.jpeg",
+        order_id: order.id,
+        prefill: { name: fullName, contact: mobile },
+        theme: { color: "#009f73" },
+        modal: { ondismiss: () => setSubmitting(false) },
+        handler: async (response: { razorpay_payment_id: string; razorpay_order_id: string; razorpay_signature: string }) => {
+          try {
+            const verificationResponse = await fetch("/api/verify-payment", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                orderId: order.id,
+                paymentId: response.razorpay_payment_id,
+                signature: response.razorpay_signature,
+              }),
+            });
 
-      await addDoc(collection(db, "donations"), {
-        userId: auth.currentUser.uid,
-        email: auth.currentUser.email || "",
-        receiptNo,
-        donorName: fullName,
-        mobile,
-        amount: Number(selectedAmount),
-        paymentMode: "UPI",
-        utrNumber,
-        screenshotUrl,
-        status: "pending",
-        donationDate: new Date().toISOString(),
-        createdAt: serverTimestamp(),
+            if (!verificationResponse.ok) {
+              throw new Error("Payment could not be verified");
+            }
+
+            const finalReceiptData = {
+              receiptNo,
+              date: donationDate,
+              donorName: fullName,
+              mobile,
+              amount: Number(selectedAmount),
+              utrNumber: response.razorpay_payment_id,
+              status: "Payment Verified",
+            };
+
+            await addDoc(collection(db, "donations"), {
+              userId: auth.currentUser?.uid,
+              email: auth.currentUser?.email || "",
+              receiptNo,
+              donorName: fullName,
+              mobile,
+              amount: Number(selectedAmount),
+              paymentMode: "Razorpay",
+              razorpayOrderId: order.id,
+              razorpayPaymentId: response.razorpay_payment_id,
+              status: "verified",
+              donationDate: new Date().toISOString(),
+              createdAt: serverTimestamp(),
+            });
+
+            setReceiptData(finalReceiptData);
+            setFullName("");
+            setMobile("");
+            alert("Payment successful. Your donation has been verified.");
+          } catch (error) {
+            console.error(error);
+            alert("Payment was completed, but verification failed. Please contact AMARISM with your payment ID.");
+          } finally {
+            setSubmitting(false);
+          }
+        },
       });
 
-      setReceiptData(finalReceiptData);
-      alert("Donation details submitted successfully.");
-
-      setFullName("");
-      setMobile("");
-      setUtrNumber("");
-      setScreenshotUrl("");
+      razorpay.open();
     } catch (error) {
       console.error(error);
-      alert("Something went wrong. Please try again.");
-    } finally {
+      alert(error instanceof Error ? error.message : "Something went wrong. Please try again.");
       setSubmitting(false);
     }
   };
@@ -218,12 +240,12 @@ const handleUpiPayment = (app: "phonepe" | "gpay" | "paytm" | "generic") => {
               ⭐ FOUNDATION PATRON PROTOCOL ⭐
             </p>
 
-            <h2 className="text-2xl font-serif font-bold mt-3">
-              Donate via UPI
+              <h2 className="text-2xl font-serif font-bold mt-3">
+              Secure Online Donation
             </h2>
 
             <p className="text-[#009f73] text-xs font-bold mt-2">
-              MANUAL VERIFICATION ENABLED
+              RAZORPAY SECURE CHECKOUT
             </p>
           </div>
 
@@ -248,66 +270,16 @@ const handleUpiPayment = (app: "phonepe" | "gpay" | "paytm" | "generic") => {
           </div>
 
           <div className="grid md:grid-cols-2 gap-10 items-start">
-            <div className="bg-[#081229] rounded-3xl p-6 text-center text-white">
-              <h3 className="text-2xl font-bold mb-3">Pay via UPI</h3>
-
-              <div className="bg-white rounded-2xl p-4 inline-block">
-                <Image
-                  src="/amarism-qr.png"
-                  alt="AMARISM UPI QR"
-                  width={260}
-                  height={480}
-                  className="rounded-xl"
-                />
+            <div className="bg-[#081229] rounded-3xl p-8 text-center text-white">
+              <h3 className="text-2xl font-bold mb-4">Pay Securely with Razorpay</h3>
+              <p className="text-sm leading-6 text-gray-200">
+                Choose UPI, cards, net banking, or any payment method enabled in
+                the Razorpay checkout window.
+              </p>
+              <div className="mt-8 rounded-2xl bg-white/10 p-5 text-sm text-gray-200">
+                Your payment is verified securely before AMARISM records your
+                donation and generates an acknowledgement receipt.
               </div>
-
-              <p className="mt-5 text-sm text-gray-200">
-                Pay directly using PhonePe, Google Pay, Paytm, BHIM or any UPI app.
-              </p>
-
-              <p className="mt-3 text-sm text-gray-300">
-                UPI ID: <span className="font-bold">vmbunny@ibl</span>
-              </p>
-
-             <div className="mt-6 grid grid-cols-2 gap-3">
-  <button
-    onClick={() => handleUpiPayment("phonepe")}
-    className="bg-[#009f73] text-white rounded-2xl py-4 font-bold"
-  >
-    PhonePe
-  </button>
-
-  <button
-    onClick={() => handleUpiPayment("gpay")}
-    className="bg-[#009f73] text-white rounded-2xl py-4 font-bold"
-  >
-    Google Pay
-  </button>
-
-  <button
-    onClick={() => handleUpiPayment("paytm")}
-    className="bg-[#009f73] text-white rounded-2xl py-4 font-bold"
-  >
-    Paytm
-  </button>
-
-  <button
-    onClick={() => handleUpiPayment("generic")}
-    className="bg-[#009f73] text-white rounded-2xl py-4 font-bold"
-  >
-    Any UPI
-  </button>
-</div>
-              <button
-                onClick={copyUpiId}
-                className="mt-3 w-full bg-white/10 hover:bg-white/20 text-white rounded-2xl py-3 font-bold"
-              >
-                Copy UPI ID
-              </button>
-
-              <p className="mt-4 text-xs text-gray-300">
-                After payment, come back and submit your UTR / Transaction ID.
-              </p>
             </div>
 
             <div id="donation-confirm-form">
@@ -316,16 +288,9 @@ const handleUpiPayment = (app: "phonepe" | "gpay" | "paytm" | "generic") => {
               </h3>
 
               <p className="text-sm text-gray-500 mb-5">
-                After completing payment, fill this form with your UTR number
-                to generate your donation record.
+                Enter your details and use Razorpay secure checkout to complete
+                your donation.
               </p>
-
-              {showConfirmForm && (
-                <div className="mb-5 rounded-2xl bg-[#e8fbf3] border border-[#10b981]/30 p-4 text-sm text-[#065f46] font-semibold">
-                  Payment app opened. After completing payment, return here and
-                  submit your UTR / Transaction ID.
-                </div>
-              )}
 
               <div className="space-y-5">
                 <input
@@ -348,26 +313,12 @@ const handleUpiPayment = (app: "phonepe" | "gpay" | "paytm" | "generic") => {
                   className="w-full bg-gray-100 rounded-2xl px-6 py-5 outline-none border font-bold text-[#081229]"
                 />
 
-                <input
-                  placeholder="UPI Transaction / UTR Number"
-                  value={utrNumber}
-                  onChange={(e) => setUtrNumber(e.target.value)}
-                  className="w-full bg-gray-50 rounded-2xl px-6 py-5 outline-none border"
-                />
-
-                <input
-                  placeholder="Payment Screenshot URL (optional)"
-                  value={screenshotUrl}
-                  onChange={(e) => setScreenshotUrl(e.target.value)}
-                  className="w-full bg-gray-50 rounded-2xl px-6 py-5 outline-none border"
-                />
-
                 <button
-                  onClick={handleSubmitDonation}
+                  onClick={handleRazorpayPayment}
                   disabled={submitting}
                   className="w-full bg-[#009f73] text-white rounded-2xl py-5 font-black tracking-widest text-lg shadow-lg disabled:opacity-60"
                 >
-                  {submitting ? "SUBMITTING..." : "SUBMIT DONATION DETAILS"}
+                  {submitting ? "OPENING PAYMENT..." : `PAY ₹${selectedAmount} SECURELY`}
                 </button>
 
                 {receiptData && (

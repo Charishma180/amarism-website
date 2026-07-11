@@ -10,10 +10,10 @@ const tabs = [
   { id: "impact-roadmap", label: "IMPACT ROADMAP" },
 ];
 const tabImages: Record<string, string> = {
-  "who-we-are": "/about-hero.jpeg",
-  "core-values": "/about-hero.jpeg",
-  "governing-body": "/about-hero.jpeg",
-  "impact-roadmap": "/about-hero.jpeg",
+  "who-we-are": "/About-hero.jpeg",
+  "core-values": "/About-hero.jpeg",
+  "governing-body": "/About-hero.jpeg",
+  "impact-roadmap": "/About-hero.jpeg",
 };
 
 export function AboutSection() {
@@ -22,50 +22,51 @@ export function AboutSection() {
   return (
     <>
       {/* TOP HERO IMAGE */}
-      <div className="relative h-[78vh] md:h-[92vh] overflow-hidden">
-        <img
-          src={tabImages[activeTab]}
-          alt="About Hero"
+<div className="relative h-[78vh] md:h-[92vh] overflow-hidden bg-[#061322]">
+  <img
+  src={tabImages[activeTab]}
+  alt="About Hero"
           className="w-full h-full object-cover object-center"
-        />
+ />
 
         <div className="absolute inset-0 bg-[#061322]/55"></div>
 
-        <div className="absolute inset-0 flex items-center">
-          <div className="px-6 md:px-16 max-w-5xl">
-            <div className="bg-[#0d9488]/20 border border-[#14b89a]/30 backdrop-blur-md text-[#7fffd4] px-5 py-2 rounded-full text-xs font-bold tracking-[0.35em] inline-block mb-8">
-  {activeTab === "who-we-are" && "OUR IDENTITY"}
-  {activeTab === "core-values" && "PRINCIPLES"}
-  {activeTab === "governing-body" && "LEADERSHIP"}
-  {activeTab === "impact-roadmap" && "OUR JOURNEY"}
-</div>
-            <h1 className="text-5xl md:text-8xl font-black text-white mb-8 leading-none">
-  {activeTab === "who-we-are" && "Who We Are"}
-  {activeTab === "core-values" && "Our Core Values"}
-  {activeTab === "governing-body" && "The Governing Body"}
-  {activeTab === "impact-roadmap" && "Impact Roadmap"}
-</h1>
-
-            <div className="flex items-start gap-4 max-w-3xl">
-              <div className="w-1 h-16 bg-[#14b89a] rounded-full mt-1"></div>
-
-              <p className="text-white text-xl md:text-2xl md:text-3xl leading-relaxed">
-                {activeTab === "who-we-are" &&
-                  "A youth-driven movement for dignity and justice."}
-
-                {activeTab === "core-values" &&
-                  "Build on Human Dignity,Equality and Costitutional Justice."}
-
-                {activeTab === "governing-body" &&
-                  "Visionary Leadership Driving Grassroots changes."}
-
-                {activeTab === "impact-roadmap" &&
-                  "Jourey of change Across the Grassroots."}
-              </p>
-            </div>
-          </div>
-        </div>
+  <div className="absolute inset-0 flex items-center">
+    <div className="px-6 md:px-16 max-w-5xl">
+      <div className="bg-[#0d9488]/20 border border-[#14b89a]/30 backdrop-blur-md text-[#7fffd4] px-5 py-2 rounded-full text-xs font-bold tracking-[0.35em] inline-block mb-8">
+        {activeTab === "who-we-are" && "OUR IDENTITY"}
+        {activeTab === "core-values" && "PRINCIPLES"}
+        {activeTab === "governing-body" && "LEADERSHIP"}
+        {activeTab === "impact-roadmap" && "OUR JOURNEY"}
       </div>
+
+      <h1 className="text-5xl md:text-8xl font-black text-white mb-8 leading-none">
+        {activeTab === "who-we-are" && "Who We Are"}
+        {activeTab === "core-values" && "Our Core Values"}
+        {activeTab === "governing-body" && "The Governing Body"}
+        {activeTab === "impact-roadmap" && "Impact Roadmap"}
+      </h1>
+
+      <div className="flex items-start gap-4 max-w-3xl">
+        <div className="w-1 h-16 bg-[#14b89a] rounded-full mt-1"></div>
+
+        <p className="text-white text-xl md:text-3xl leading-relaxed">
+          {activeTab === "who-we-are" &&
+            "A youth-driven movement for dignity and justice."}
+
+          {activeTab === "core-values" &&
+            "Built on Human Dignity, Equality and Constitutional Justice."}
+
+          {activeTab === "governing-body" &&
+            "Visionary Leadership Driving Grassroots Change."}
+
+          {activeTab === "impact-roadmap" &&
+            "Journey of Change Across the Grassroots."}
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
 
       {/* TOP TABS */}
       <div className="bg-white border-b border-gray-200 sticky top-0 z-20">
