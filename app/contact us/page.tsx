@@ -1,5 +1,15 @@
-import ContactPage from "@/components/ContactPage";
+import { AmarismFooter } from "@/components/amarism-footer";
+import { ContactSection } from "@/components/contact-section";
+import { Navbar } from "@/components/navbar";
 
 export default function Page() {
-  return <ContactPage />;
+  return (
+    <main>
+      <Navbar />
+      <div className="pt-24">
+        <ContactSection />
+      </div>
+      <AmarismFooter />
+    </main>
+  );
 }

@@ -1,6 +1,6 @@
 import { Navbar } from "@/components/navbar";
 import { AmarismFooter } from "@/components/amarism-footer";
-import { GetInvolvedOverview } from "@/components/get-involved-overview";
+import { GetInvolvedSection } from "@/components/get-involved-section";
 
 export default function GetInvolvedPage() {
   return (
@@ -8,7 +8,7 @@ export default function GetInvolvedPage() {
       <Navbar />
 
       <div className="pt-24">
-        <GetInvolvedOverview />
+        <GetInvolvedSection />
       </div>
 
       <AmarismFooter />
