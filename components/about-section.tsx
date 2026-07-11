@@ -10,10 +10,10 @@ const tabs = [
   { id: "impact-roadmap", label: "IMPACT ROADMAP" },
 ];
 const tabImages: Record<string, string> = {
-  "who-we-are": "/About-hero.jpeg",
-  "core-values": "/About-hero.jpeg",
-  "governing-body": "/About-hero.jpeg",
-  "impact-roadmap": "/About-hero.jpeg",
+  "who-we-are": "/about-hero.jpg",
+  "core-values": "/about-hero.jpg",
+  "governing-body": "/about-hero.jpg",
+  "impact-roadmap": "/about-hero.jpg",
 };
 
 export function AboutSection() {
