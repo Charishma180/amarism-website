@@ -29,17 +29,21 @@ export default function PatronPage() {
     "4999",
   ];
 
-const getUpiLink = () => {
+ const getUpiLink = (app: "phonepe" | "gpay" | "paytm" | "generic") => {
   const upiId = "vmbunny@ibl";
-  const payeeName = "P CHARISHMA";
+  const payeeName = "P CHARISHAMA";
   const note = "AMARISM Donation";
 
   const params =
-    `pa=${encodeURIComponent(upiId)}` +
+    `pa=${upiId}` +
     `&pn=${encodeURIComponent(payeeName)}` +
-    `&am=${encodeURIComponent(selectedAmount)}` +
+    `&am=${selectedAmount}` +
     `&cu=INR` +
     `&tn=${encodeURIComponent(note)}`;
+
+  if (app === "phonepe") return `phonepe://pay?${params}`;
+  if (app === "gpay") return `tez://upi/pay?${params}`;
+  if (app === "paytm") return `paytmmp://pay?${params}`;
 
   return `upi://pay?${params}`;
 };
@@ -60,7 +64,8 @@ const handleUpiPayment = (app: "phonepe" | "gpay" | "paytm" | "generic") => {
     return;
   }
 
- window.location.href = getUpiLink();
+  window.location.href = getUpiLink(app);
+
   setTimeout(() => {
     alert(
       "After completing payment, please come back and enter your UTR / Transaction ID."
