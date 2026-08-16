@@ -64,7 +64,9 @@ export function Navbar() {
 
   const toggleExpand = (name: string) => {
     setExpandedItems((prev) =>
-      prev.includes(name) ? prev.filter((i) => i !== name) : [...prev, name]
+      prev.includes(name)
+        ? prev.filter((i) => i !== name)
+        : [...prev, name]
     );
   };
 
@@ -72,6 +74,8 @@ export function Navbar() {
     <>
       <header className="fixed top-0 left-0 right-0 z-50 bg-white border-b border-gray-100">
         <div className="flex items-center justify-between px-4 py-3 max-w-7xl mx-auto">
+
+          {/* Logo */}
           <Link href="/" className="flex items-center gap-2">
             <img
               src="/amarism-logo.jpeg"
@@ -84,20 +88,25 @@ export function Navbar() {
             </span>
           </Link>
 
+          {/* Right Side */}
           <div className="flex items-center gap-3">
+
             {user ? (
+              /* Logged in → Profile */
               <Link href="/profile" aria-label="Profile">
                 <UserCircle className="w-9 h-9 text-[#1a2e5a]" />
               </Link>
             ) : (
               <>
+                {/* Login - Mobile + Desktop */}
                 <Link
                   href="/signin"
-                  className="hidden md:flex px-4 py-2 rounded-full border border-[#1a2e5a] text-[#1a2e5a] text-sm font-semibold hover:bg-[#1a2e5a] hover:text-white transition"
+                  className="px-3 md:px-4 py-2 rounded-full border border-[#1a2e5a] text-[#1a2e5a] text-sm font-semibold hover:bg-[#1a2e5a] hover:text-white transition"
                 >
                   Login
                 </Link>
 
+                {/* Sign Up - Desktop Only */}
                 <Link
                   href="/signup"
                   className="hidden md:flex px-4 py-2 rounded-full bg-[#1a2e5a] text-white text-sm font-semibold hover:bg-[#122347] transition"
@@ -107,6 +116,7 @@ export function Navbar() {
               </>
             )}
 
+            {/* Hamburger */}
             <button
               onClick={() => setIsOpen(true)}
               className="p-2 text-[#1a2e5a]"
@@ -118,11 +128,16 @@ export function Navbar() {
         </div>
       </header>
 
+      {/* Mobile / Menu Overlay */}
       {isOpen && (
         <div className="fixed inset-0 z-[100] bg-white overflow-y-auto">
           <div className="p-4">
+
+            {/* Menu Header */}
             <div className="flex items-center justify-between mb-8">
-              <span className="text-xl font-bold text-[#1a2e5a]">MENU</span>
+              <span className="text-xl font-bold text-[#1a2e5a]">
+                MENU
+              </span>
 
               <button
                 onClick={() => setIsOpen(false)}
@@ -133,9 +148,13 @@ export function Navbar() {
               </button>
             </div>
 
+            {/* Navigation */}
             <nav className="space-y-0">
               {navItems.map((item) => (
-                <div key={item.name} className="border-b border-gray-100">
+                <div
+                  key={item.name}
+                  className="border-b border-gray-100"
+                >
                   {item.subItems ? (
                     <>
                       <button
@@ -196,6 +215,7 @@ export function Navbar() {
               ))}
             </nav>
 
+            {/* Join Us */}
             <div className="mt-8">
               <Link
                 href="#get-involved"
