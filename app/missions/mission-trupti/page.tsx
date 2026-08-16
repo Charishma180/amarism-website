@@ -80,7 +80,7 @@ export default function Page() {
     />
   </section>
       {/* INTRODUCTION */}
-      <section className="pt-32 md:pt-40 px-5 md:px-10 pb-16">
+      <section className="pt-12 md:pt-40 px-5 md:px-10 pb-16">
         <div className="max-w-7xl mx-auto grid lg:grid-cols-[320px_1fr] gap-10 lg:gap-16">
 
           {/* LEFT SIDE */}
