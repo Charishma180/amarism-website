@@ -1,8 +1,8 @@
+
 "use client";
 
 import { useState } from "react";
 import {
-  MapPin,
   Mail,
   Facebook,
   Instagram,
@@ -39,6 +39,8 @@ ${message}`;
 
       <section className="min-h-screen bg-white pt-28">
         <div className="max-w-7xl mx-auto px-10 py-20 grid lg:grid-cols-2 gap-16 items-start">
+
+          {/* Left Section */}
           <div>
             <p className="text-lg font-bold text-green-700 uppercase mb-6">
               Reach Out
@@ -53,23 +55,23 @@ ${message}`;
               a question, we are here to listen.
             </p>
 
-            
-             
+            <div className="flex gap-6 border rounded-2xl p-7">
+              <div className="w-14 h-14 rounded-full bg-blue-100 flex items-center justify-center">
+                <Mail className="w-7 h-7 text-blue-500" />
+              </div>
 
-              <div className="flex gap-6 border rounded-2xl p-7">
-                <div className="w-14 h-14 rounded-full bg-blue-100 flex items-center justify-center">
-                  <Mail className="w-7 h-7 text-blue-500" />
-                </div>
-                <div>
-                  <h3 className="text-2xl font-bold text-[#101828]">
-                    Email Support
-                  </h3>
-                  <p className="text-xl text-gray-600">amarism2025@gmail.com</p>
-                </div>
+              <div>
+                <h3 className="text-2xl font-bold text-[#101828]">
+                  Email Support
+                </h3>
+                <p className="text-xl text-gray-600">
+                  amarism2025@gmail.com
+                </p>
               </div>
             </div>
           </div>
 
+          {/* Contact Form */}
           <div className="border rounded-2xl p-8 shadow-sm">
             <div className="grid grid-cols-2 gap-6 mb-6">
               <div>
@@ -117,55 +119,57 @@ ${message}`;
               Send Message
             </Button>
           </div>
+
         </div>
 
+        {/* Footer */}
         <footer className="border-t bg-[#f7fbf8] py-8">
           <div className="max-w-7xl mx-auto px-10 flex flex-col md:flex-row items-center gap-6">
             <div className="flex items-center gap-4">
               <img
                 src="/amarism-logo.jpeg"
+                alt="AMARISM Logo"
                 className="w-14 h-14 rounded-full"
               />
-              
             </div>
 
             <div className="flex gap-6">
-  <a
-    href="https://www.facebook.com/share/14jBLr1k5yv/"
-    target="_blank"
-    rel="noopener noreferrer"
-  >
-    <Facebook className="w-8 h-8 text-[#12382b] hover:scale-110 transition" />
-  </a>
+              <a
+                href="https://www.facebook.com/share/14jBLr1k5yv/"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <Facebook className="w-8 h-8 text-[#12382b] hover:scale-110 transition" />
+              </a>
 
-  <a
-    href="https://www.instagram.com/amarism_ap?igsh=MTFteGc3YmhhazVreg=="
-    target="_blank"
-    rel="noopener noreferrer"
-  >
-    <Instagram className="w-8 h-8 text-[#12382b] hover:scale-110 transition" />
-  </a>
+              <a
+                href="https://www.instagram.com/amarism_ap?igsh=MTFteGc3YmhhazVreg=="
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <Instagram className="w-8 h-8 text-[#12382b] hover:scale-110 transition" />
+              </a>
 
-  <a
-    href="https://wa.me/918341390975"
-    target="_blank"
-    rel="noopener noreferrer"
-  >
-    <MessageCircle className="w-8 h-8 text-[#12382b] hover:scale-110 transition" />
-  </a>
+              <a
+                href="https://wa.me/918341390975"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <MessageCircle className="w-8 h-8 text-[#12382b] hover:scale-110 transition" />
+              </a>
 
-  <a
-    href="https://in.linkedin.com/in/amarism-ap-215964411"
-    target="_blank"
-    rel="noopener noreferrer"
-  >
-    <Linkedin className="w-8 h-8 text-[#12382b] hover:scale-110 transition" />
-  </a>
+              <a
+                href="https://in.linkedin.com/in/amarism-ap-215964411"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <Linkedin className="w-8 h-8 text-[#12382b] hover:scale-110 transition" />
+              </a>
 
-  <a href="mailto:amarism2025@gmail.com">
-    <Mail className="w-8 h-8 text-[#12382b] hover:scale-110 transition" />
-  </a>
-</div>
+              <a href="mailto:amarism2025@gmail.com">
+                <Mail className="w-8 h-8 text-[#12382b] hover:scale-110 transition" />
+              </a>
+            </div>
           </div>
         </footer>
       </section>
