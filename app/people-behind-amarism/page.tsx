@@ -87,9 +87,9 @@ export default function Page() {
 
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8 mb-12">
             {[
-              ["📜", "V. Anil Kumar", "GENERAL SECRETARY"],
-              ["🏛️", "Pillapalem Charishma", "VICE PRESIDENT"],
-              ["🏦", "V. Tharun", "TREASURER"],
+              ["📜", "Charishma Pillapalem", "GENERAL SECRETARY"],
+              ["🏛️", "Vadimgadu Nitish", "VICE PRESIDENT"],
+              
               ["🤝", "T. Jeevana Sri", "ADDL. GENERAL SECRETARY"],
             ].map(([icon, name, role]) => (
               <div
