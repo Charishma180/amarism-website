@@ -58,16 +58,7 @@ ${message}`;
                 <div className="w-14 h-14 rounded-full bg-red-100 flex items-center justify-center">
                   <MapPin className="w-7 h-7 text-red-500" />
                 </div>
-                <div>
-                  <h3 className="text-2xl font-bold text-[#101828]">
-                    Headquarters
-                  </h3>
-                  <p className="text-xl text-gray-600 leading-8">
-                    16-07-68/FF-1 ALLAGUNTA,
-                    <br />
-                    CHITTOOR, Andhrapradesh-517582
-                  </p>
-                </div>
+                
               </div>
 
               <div className="flex gap-6 border rounded-2xl p-7">
