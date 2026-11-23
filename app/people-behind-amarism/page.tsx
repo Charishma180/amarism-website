@@ -113,7 +113,7 @@ export default function Page() {
 
           <div className="grid md:grid-cols-2 gap-6">
             {[
-              "V. Charan Kumar",
+              
               "M. Pranay",
             ].map((name) => (
               <div
