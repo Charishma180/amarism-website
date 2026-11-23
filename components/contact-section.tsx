@@ -72,21 +72,9 @@ ${message}
             question, we are here to listen.
           </p>
 
-          {/* Headquarters */}
-          <div className="flex items-start gap-3 mb-6">
-            <div className="w-8 h-8 rounded-full bg-red-100 flex items-center justify-center flex-shrink-0 mt-1">
-              <MapPin className="w-4 h-4 text-red-500" />
-            </div>
+         
 
-            <div>
-              <h3 className="font-semibold text-[#1a2e5a]">Headquarters</h3>
-              <p className="text-gray-600 text-sm">
-                16-07-68/FF-1 ALLAGUNTA,
-                <br />
-                CHITTOOR, Andhrapradesh -517582
-              </p>
-            </div>
-          </div>
+            
 
           {/* Email Support */}
           <div className="flex items-start gap-3 mb-6">

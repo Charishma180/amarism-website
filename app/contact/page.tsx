@@ -53,13 +53,8 @@ ${message}`;
               a question, we are here to listen.
             </p>
 
-            <div className="space-y-6">
-              <div className="flex gap-6 border rounded-2xl p-7">
-                <div className="w-14 h-14 rounded-full bg-red-100 flex items-center justify-center">
-                  <MapPin className="w-7 h-7 text-red-500" />
-                </div>
-                
-              </div>
+            
+             
 
               <div className="flex gap-6 border rounded-2xl p-7">
                 <div className="w-14 h-14 rounded-full bg-blue-100 flex items-center justify-center">
