@@ -392,7 +392,7 @@ export function AboutSection() {
     </div>
 
     <h3 className="text-2xl font-bold text-[#081229] mb-3">
-      V. Anil Kumar
+       Charishma Pillapalem
     </h3>
 
     <p className="text-[#12b886] tracking-[3px] font-semibold text-sm">
@@ -406,7 +406,7 @@ export function AboutSection() {
     </div>
 
     <h3 className="text-2xl font-bold text-[#081229] mb-3">
-      Pillapalem Charishma
+      Vadimgadu Nithish
     </h3>
 
     <p className="text-[#12b886] tracking-[3px] font-semibold text-sm">
@@ -414,19 +414,7 @@ export function AboutSection() {
     </p>
   </div>
 
-  <div className="bg-white rounded-[30px] p-8 shadow-md hover:-translate-y-1 transition-all duration-300">
-    <div className="w-16 h-16 rounded-2xl bg-[#eef6ff] flex items-center justify-center text-2xl md:text-3xl mb-6">
-      🏦
-    </div>
-
-    <h3 className="text-2xl font-bold text-[#081229] mb-3">
-      V. Tharun
-    </h3>
-
-    <p className="text-[#12b886] tracking-[3px] font-semibold text-sm">
-      TREASURER
-    </p>
-  </div>
+  
 
   <div className="bg-white rounded-[30px] p-8 shadow-md hover:-translate-y-1 transition-all duration-300">
     <div className="w-16 h-16 rounded-2xl bg-[#eef6ff] flex items-center justify-center text-2xl md:text-3xl mb-6">
@@ -448,15 +436,7 @@ export function AboutSection() {
   <div className="bg-white rounded-2xl p-6 shadow-sm flex items-center gap-5">
     <div className="text-2xl md:text-3xl">👤</div>
 
-    <div>
-      <h4 className="text-xl font-bold text-[#081229]">
-        V. Charan Kumar
-      </h4>
-
-      <p className="text-gray-500 text-sm tracking-wide">
-        EXECUTIVE MEMBER
-      </p>
-    </div>
+    
   </div>
 
   <div className="bg-white rounded-2xl p-6 shadow-sm flex items-center gap-5">
